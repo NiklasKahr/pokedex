@@ -22,40 +22,43 @@
 
 <body onload="init()">
     <div id="content">
-        <div id="card" class="background-fire px-2 py-3">
+        <div id="card" class="background-fire px-2 py-3 shadow">
             <div id="credentials">
                 <h5 id="name" class="mb-0"></h5>
                 <span id="id" class="font-14px"></span>
             </div>
 
-            <div class="sub-card">
-                <img id="picture">
-                <div class="info-container mb-4">
-                    <div class="w-90 h-100 white p-2 z-index-2">
-                        <span id="info-text" class="color-fire"></span>
+            <div class="sub-card mb-2_75">
+                <img id="picture" class="z-index-3 mb-n2_3">
+                <div class="attacks-container">
+                    <div class="sub-attacks w-90 h-100 background-white p-2 border-radius-6p z-index-2 shadow-sm">
+                        <span id="attacks-text1" class="color-white background-fire-attack px-1 py-05 border-radius-6p"></span>
+                        <span id="attacks-text3" class="color-white background-fire-attack px-1 py-05 border-radius-6p"></span>
+                        <span id="attacks-text2" class="color-white background-fire-attack px-1 py-05 border-radius-6p"></span>
+                        <span id="attacks-text4" class="color-white background-fire-attack px-1 py-05 border-radius-6p"></span>
                     </div>
-                    <div class="w-85 white opacity-75 p-3 mt-n1_5 z-index-1"></div>
-                    <div class="w-80 white opacity-50 p-3 mt-n1_5"></div>
-                </div>
-
-                <div class="data mb-3">
-                    <div class="sub-data py-1">
-                        <h5 id="type" class="mb-0"></h5>
-                        <span class="font-14px">Type</span>
-                    </div>
-
-                    <div class="sub-data py-1 border-left-right">
-                        <h5 id="weight" class="mb-0"></h5>
-                        <span class="font-14px">Weight</span>
-                    </div>
-
-                    <div class="sub-data py-1">
-                        <h5 id="height" class="mb-0"></h5>
-                        <span class="font-14px">Height</span>
-                    </div>
+                    <div class="w-85 background-white opacity-75 p-3 mt-n1_5 border-radius-6p z-index-1 shadow-sm"></div>
+                    <div class="w-80 background-white opacity-50 p-3 mt-n1_5 border-radius-6p shadow-sm"></div>
                 </div>
             </div>
-            <button class="mt-n0_8">Evolve</button>
+
+            <div class="data-container mb-1_15">
+                <div class="sub-data py-1">
+                    <h5 id="type" class="mb-0"></h5>
+                    <span class="font-14px">Type</span>
+                </div>
+
+                <div class="sub-data py-1 border-left-right">
+                    <h5 id="weight" class="mb-0"></h5>
+                    <span class="font-14px">Weight</span>
+                </div>
+
+                <div class="sub-data py-1">
+                    <h5 id="height" class="mb-0"></h5>
+                    <span class="font-14px">Height</span>
+                </div>
+            </div>
+            <button onclick="convertUnits()" id="unit-button" class="btn btn-white shadow-sm">lb/ft</button>
         </div>
     </div>
 </body>
