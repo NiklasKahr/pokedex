@@ -18,7 +18,6 @@ async function init() {
 async function renderContent() {
     for (let i = 1; i < 51; i++) {
         //const element = array[i];
-
         document.getElementById('content').innerHTML += `
         <div id="card${i}" class="content-card px-2 py-3 m-2">
             <div id="content-credentials${i}">
