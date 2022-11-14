@@ -3,17 +3,40 @@ let isAmerican;
 
 
 async function init() {
-    let url = 'https://pokeapi.co/api/v2/pokemon/cyndaquil';
+    let url = 'https://pokeapi.co/api/v2/pokemon/1/';
     let response = await fetch(url);
     currentPokemon = await response.json();
 
     console.log('Loaded Pokémon:', currentPokemon)
 
-    renderCard();
+    //renderCard();
+    renderContent();
 }
 
 
 // render functions
+async function renderContent() {
+    for (let i = 1; i < 51; i++) {
+        //const element = array[i];
+
+        document.getElementById('content').innerHTML += `
+        <div id="card${i}" class="content-card px-2 py-3 m-2">
+            <div id="content-credentials${i}">
+                <h5 id="content-name${i}" class="mb-0">${currentPokemon['name'].charAt(0).toUpperCase() + currentPokemon['name'].slice(1)}</h5>
+                <span id="content-id${i}" class="font-14px">#${currentPokemon['id']}</span>
+            </div>
+            <img id="content-sprite${i}" class="content-sprite" src="${currentPokemon['sprites']['other']['official-artwork']['front_default']}" 
+            alt="${currentPokemon['name'].charAt(0).toUpperCase() + currentPokemon['name'].slice(1)}">
+        </div>
+        `;
+
+        url = `https://pokeapi.co/api/v2/pokemon/${i+1}/`;
+        let response = await fetch(url);
+        currentPokemon = await response.json();
+    }
+}
+
+
 function renderCard() {
     renderCredentials();
     renderSprite();
@@ -48,19 +71,20 @@ function renderAttacks3And4() {
     if (attack2Undefined()) { // at ln ...
         document.getElementById('attacks-text2').classList.add('d-none');
     } else {
-        //document.getElementById('attacks-text2').classList.remove('d-none');
         let attack2Name = currentPokemon['abilities'][2]['ability']['name'];
+        //document.getElementById('attacks-text2').classList.remove('d-none');
         document.getElementById('attacks-text2').innerHTML = attack2Name.charAt(0).toUpperCase() + attack2Name.slice(1);
     }
 
     if (attack3Undefined()) { // at ln ...
         document.getElementById('attacks-text3').classList.add('d-none');
     } else {
-        //document.getElementById('attacks-text3').classList.remove('d-none');
         let attack3Name = currentPokemon['abilities'][3]['ability']['name'];
+        //document.getElementById('attacks-text3').classList.remove('d-none');
         document.getElementById('attacks-text3').innerHTML = attack3Name.charAt(0).toUpperCase() + attack3Name.slice(1);
     }
 }
+
 
 function renderProperties() {
     let type = document.getElementById('type');

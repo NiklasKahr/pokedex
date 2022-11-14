@@ -6,66 +6,83 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokédex</title>
-    <link rel="shortcut icon" href="./img/">
+    <link rel="shortcut icon" href="./img/favicon.png">
 
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./fonts.css">
     <!-- <link rel="stylesheet" href="fonts.css"> -->
     <script src="script.js"></script>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 </head>
 
 <body onload="init()">
-    <div id="content">
-        <div id="card" class="background-fire px-2 py-3 shadow">
-            <div id="credentials">
-                <h5 id="name" class="mb-0"></h5>
-                <span id="id" class="font-14px"></span>
-            </div>
-
-            <div class="sub-card mb-2_75">
-                <img id="sprite" class="z-index-3 mb-n2_3">
-                <div class="attacks-container">
-                    <div class="sub-attacks w-90 h-100 background-white p-2 border-radius-6p z-index-2 shadow-sm">
-                        <span id="attacks-text0"
-                            class="color-white background-fire-attack px-1 py-05 border-radius-6p"></span>
-                        <span id="attacks-text1"
-                            class="color-white background-fire-attack px-1 py-05 border-radius-6p"></span>
-                        <span id="attacks-text2"
-                            class="color-white background-fire-attack px-1 py-05 border-radius-6p"></span>
-                        <span id="attacks-text3"
-                            class="color-white background-fire-attack px-1 py-05 border-radius-6p"></span>
-                    </div>
-                    <div class="w-85 background-white opacity-75 p-3 mt-n1_5 border-radius-6p z-index-1 shadow-sm">
-                    </div>
-                    <div class="w-80 background-white opacity-50 p-3 mt-n1_5 border-radius-6p shadow-sm"></div>
-                </div>
-            </div>
-
-            <div class="properties-container mb-1_15">
-                <div class="sub-properties py-1">
-                    <h5 id="type" class="mb-0"></h5>
-                    <span class="font-14px">Type</span>
-                </div>
-
-                <div class="sub-properties py-1 border-left-right">
-                    <h5 id="weight" class="mb-0"></h5>
-                    <span class="font-14px">Weight</span>
-                </div>
-
-                <div class="sub-properties py-1">
-                    <h5 id="height" class="mb-0"></h5>
-                    <span class="font-14px">Height</span>
-                </div>
-            </div>
-            <button onclick="convertUnits()" id="unit-button" class="btn btn-white shadow-sm">lb/ft</button>
+    <header class="header">
+        <div class="logoContainer">
+            <a title="pokemon.com" href="https://www.pokemon.com" target="_blank">
+                <img class="logo logoAnimation" src="./img/favicon.png" alt="Pokéball">
+            </a>
         </div>
+
+        <div class="searchBarContainer">
+            <img class="magnifyingGlass" src="img/magnifying-glass.png" alt="Lupe">
+            <input class="searchBar" placeholder="Search" id="searchBar">
+        </div>
+
+        <div class="favoriteContainer">
+            <img class="favorite" src="./img/favorite.jpg" alt="Favorite">
+        </div>
+    </header>
+
+    <div id="content">
+
     </div>
+
+    <div id="card" class="background-fire px-2 py-3 z-index-1 shadow d-none">
+        <div id="credentials">
+            <h5 id="name" class="mb-0"></h5>
+            <span id="id" class="font-14px"></span>
+        </div>
+        <div class="sub-card mb-2_75">
+            <img id="sprite" class="z-index-3 mb-n2_3">
+            <div class="attacks-container">
+                <div class="sub-attacks w-90 h-100 background-white p-2 border-radius-6p z-index-3 shadow-sm">
+                    <span id="attacks-text0" class="color-white background-fire-attack px-1 py-05 border-radius-6p"></span>
+                    <span id="attacks-text1" class="color-white background-fire-attack px-1 py-05 border-radius-6p"></span>
+                    <span id="attacks-text2" class="color-white background-fire-attack px-1 py-05 border-radius-6p"></span>
+                    <span id="attacks-text3" class="color-white background-fire-attack px-1 py-05 border-radius-6p"></span>
+                </div>
+                <div class="w-85 background-white opacity-75 p-3 mt-n1_5 border-radius-6p z-index-2 shadow-sm">
+                </div>
+                <div class="w-80 background-white opacity-50 p-3 mt-n1_5 border-radius-6p shadow-sm"></div>
+            </div>
+        </div>
+
+        <div class="properties-container mb-1_15">
+            <div class="sub-properties py-1">
+                <h5 id="type" class="mb-0"></h5>
+                <span class="font-14px">Type</span>
+            </div>
+
+            <div class="sub-properties py-1 border-left-right">
+                <h5 id="weight" class="mb-0"></h5>
+                <span class="font-14px">Weight</span>
+            </div>
+
+            <div class="sub-properties py-1">
+                <h5 id="height" class="mb-0"></h5>
+                <span class="font-14px">Height</span>
+            </div>
+        </div>
+        <button onclick="convertUnits()" id="unit-button" class="btn btn-white shadow-sm">lb/ft</button>
+    </div>
+
+    <!-- <footer>
+        <a href="https://www.flaticon.com/free-icons/pokemon" title="pokemon icons">Pokemon icons created by Freepik - Flaticon</a>
+        <a href="https://www.freepik.com/free-vector/background-luxury-gradient-design-template_32409731.htm#query=whie%20grey%20split&position=8&from_view=search&track=ais">Image by AndreaCharlesta</a> on Freepik
+    </footer> -->
+
 </body>
 
 </html>

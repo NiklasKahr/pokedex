@@ -1,0 +1,5 @@
+{
+    "[javascript]": {
+        "editor.defaultFormatter": "lonefy.vscode-JS-CSS-HTML-formatter"
+    }
+}
