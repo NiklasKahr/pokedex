@@ -23,8 +23,8 @@ async function renderContent() {
         document.getElementById('content').innerHTML += `
         <div onclick="renderCard()" id="card${i}" class="content-card px-2 py-3 m-2">
             <div class="text-align-center">
-                <h5 id="content-name${i}" class="mb-0">${currentPokemon['name'].charAt(0).toUpperCase() + currentPokemon['name'].slice(1)}</h5>
-                <span id="content-id${i}" class="font-14px">#${currentPokemon['id']}</span>
+                <h5 id="content-name${i}" class="mb-n0_2">${currentPokemon['name'].charAt(0).toUpperCase() + currentPokemon['name'].slice(1)}</h5>
+                <span id="content-id${i}" class="">#${currentPokemon['id']}</span>
             </div>
             <img id="content-sprite${i}" class="content-sprite" src="${currentPokemon['sprites']['other']['official-artwork']['front_default']}" 
             alt="${currentPokemon['name'].charAt(0).toUpperCase() + currentPokemon['name'].slice(1)}">
@@ -145,12 +145,18 @@ function convertToAmerican() {
 //search function
 async function searchCards() {
     let search = document.getElementById('search').value.toLowerCase();
+
     console.log(search);
     document.getElementById('content').innerHTML = '';
 
+    if (search == '') {
+        url = `https://pokeapi.co/api/v2/pokemon/1/`;
+        let response = await fetch(url);
+        currentPokemon = await response.json();
+    }
+
     for (let i = 1; i < 51; i++) {
-        let pokemonIdString = currentPokemon['id'].toString();
-        if (currentPokemon['name'].includes(search) || pokemonIdString.includes(search)) {
+        if (currentPokemon['name'].includes(search) || currentPokemon['id'].toString().includes(search)) {
             document.getElementById('content').innerHTML += `
                 <div id="card${i}" class="content-card px-2 py-3 m-2">
                     <div id="content-credentials${i}">

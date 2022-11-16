@@ -6,31 +6,44 @@ body {
     background-size: cover; /*maybe remove*/
 }
 
+a {
+    text-decoration: none !important;
+}
+
+
 h5 {
     font-size: 22px !important;
     font-weight: 400 !important;
 }
 
 header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     position: sticky;
     top: 0;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
     height: 7.5vh;
     background-color: white;
     border-bottom: 1px solid rgb(219, 219, 219);
 }
 
-.logoContainer {
+footer {
+    height: 250px;
+    position: static;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.96);
+}
+
+.logo-container {
     display: flex;
+    align-items: center;
 }
 
 .logo {
     height: 32px;
 }
 
-.logoAnimation {
+.logo-animation {
     animation-name: spinning;
     animation-duration: 1s;
     animation-iteration-count: 2;
@@ -46,7 +59,26 @@ header {
     }
 }
 
-.searchBarContainer {
+.disappear {
+    animation: disappear-animation 3.4s forwards;
+    margin-right: -118.5px; /* find better solution - maybe 10/80/10 width */
+}
+
+@keyframes disappear-animation {
+    0% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.search-bar-container {
     width: 40%;
     display: flex;
     align-items: center;
@@ -55,12 +87,12 @@ header {
     border-radius: 8px;
 }
 
-.magnifyingGlass {
+.magnifying-glass {
     height: 16px;
     padding-right: 16px;
 }
 
-.searchBar {
+.search-bar {
     width: 100%;
     font-size: 16px;
     background-color: transparent;
@@ -68,7 +100,7 @@ header {
     border: 0px solid;
 }
 
-.favoriteContainer {
+.favorite-container {
     display: flex;
 }
 
@@ -86,11 +118,11 @@ header {
 
 .content-card {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     background: lightgray;
-    width: 15%;
+    width: 15.3%;
     min-width: 165px;
     border-radius: 10px;
 }
@@ -151,6 +183,11 @@ header {
     height: 32px;
 }
 
+.padding {
+    padding-left: 14%;
+    padding-right: 14%;
+}
+
 .p-05 {
     padding: 0.125rem;
 }
@@ -181,6 +218,10 @@ header {
     margin-bottom: 2.75rem;
 }
 
+.mb-n0_2 {
+    margin-bottom: -0.2rem;
+}
+
 .mb-n2_3 {
     margin-bottom: -2.3rem;
 }
@@ -199,6 +240,10 @@ header {
 
 .z-index-3 {
     z-index: 3;
+}
+
+.color-black {
+    color: black;
 }
 
 .color-white {
