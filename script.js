@@ -24,7 +24,7 @@ async function renderContent() {
         <div onclick="renderCard()" id="card${i}" class="content-card px-2 py-3 m-2">
             <div class="text-align-center">
                 <h5 id="content-name${i}" class="mb-n0_2">${currentPokemon['name'].charAt(0).toUpperCase() + currentPokemon['name'].slice(1)}</h5>
-                <span id="content-id${i}" class="">#${currentPokemon['id']}</span>
+                <span id="content-id${i}">#${currentPokemon['id']}</span>
             </div>
             <img id="content-sprite${i}" class="content-sprite" src="${currentPokemon['sprites']['other']['official-artwork']['front_default']}" 
             alt="${currentPokemon['name'].charAt(0).toUpperCase() + currentPokemon['name'].slice(1)}">
@@ -158,11 +158,11 @@ async function searchCards() {
     for (let i = 1; i < 51; i++) {
         if (currentPokemon['name'].includes(search) || currentPokemon['id'].toString().includes(search)) {
             document.getElementById('content').innerHTML += `
-                <div id="card${i}" class="content-card px-2 py-3 m-2">
-                    <div id="content-credentials${i}">
-                        <h5 id="content-name${i}" class="mb-0">${currentPokemon['name'].charAt(0).toUpperCase() + currentPokemon['name'].slice(1)}</h5>
-                        <span id="content-id${i}" class="font-14px">#${currentPokemon['id']}</span>
-                </div>
+                <div onclick="renderCard()" id="card${i}" class="content-card px-2 py-3 m-2">
+            <div class="text-align-center">
+                <h5 id="content-name${i}" class="mb-n0_2">${currentPokemon['name'].charAt(0).toUpperCase() + currentPokemon['name'].slice(1)}</h5>
+                <span id="content-id${i}">#${currentPokemon['id']}</span>
+            </div>
                 <img id="content-sprite${i}" class="content-sprite" src="${currentPokemon['sprites']['other']['official-artwork']['front_default']}" 
                 alt="${currentPokemon['name'].charAt(0).toUpperCase() + currentPokemon['name'].slice(1)}">
             </div>
