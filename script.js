@@ -3,7 +3,7 @@ let currentPokemon;
 let isAmerican;
 
 
-function init() {
+async function init() {
     /*let url = 'https://pokeapi.co/api/v2/pokemon/1/';
     let response = await fetch(url);
     currentPokemon = await response.json();
@@ -11,24 +11,24 @@ function init() {
     console.log('Loaded Pokémon:', currentPokemon)*/
 
     //renderCard();
-    fillArray();
+    await fillArray();
     renderContent();
 }
 
 
 async function fillArray() {
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 905; i++) { // max of 905
         url = `https://pokeapi.co/api/v2/pokemon/${i + 1}/`;
         let response = await fetch(url);
         currentPokemon = await response.json();
 
         pokemons.push(currentPokemon);
     }
+    //console.log(pokemons[3]['types']);
 }
 
 
 // render functions
-
 function renderContent() {
     document.getElementById('content').innerHTML = '';
 
@@ -44,31 +44,62 @@ function renderContent() {
             alt="${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}">
         </div>
         `;
-
+        addTypeColor(pokemon, `card${i}`);
+        logType(pokemon);
     }
 }
 
-/*async function renderContent() {
-    document.getElementById('content').innerHTML = '';
 
-    for (let i = 0; i < 51; i++) {
-        let pokemon = pokemons[i];
-        document.getElementById('content').innerHTML += `
-        <div onclick="renderCard()" id="card${i}" class="content-card px-2 py-3 m-2">
-            <div class="text-align-center">
-                <h5 id="content-name${i}" class="mb-n0_2">${currentPokemon['name'].charAt(0).toUpperCase() + currentPokemon['name'].slice(1)}</h5>
-                <span id="content-id${i}">#${currentPokemon['id']}</span>
-            </div>
-            <img id="content-sprite${i}" class="content-sprite" src="${currentPokemon['sprites']['other']['official-artwork']['front_default']}" 
-            alt="${currentPokemon['name'].charAt(0).toUpperCase() + currentPokemon['name'].slice(1)}">
-        </div>
-        `;
-
-        url = `https://pokeapi.co/api/v2/pokemon/${i + 1}/`;
-        let response = await fetch(url);
-        currentPokemon = await response.json();
+function logType(pokemon) {
+    console.log(pokemon['types'][0]['type']['name']);
+    if (pokemon['types'][1] !== undefined) {
+        console.log(pokemon['types'][1]['type']['name']);
     }
-}*/
+    if (pokemon['types'][2] !== undefined) {
+        console.log(pokemon['types'][2]['type']['name']);
+    }
+}
+
+
+function addTypeColor(pokemon, cardId) {
+    let type = pokemon['types'][0]['type']['name'];
+    let cardBackground = document.getElementById(cardId);
+
+    switch (type) {
+        case 'grass':
+            cardBackground.classList.add('background-grass');
+            break;
+        case 'poison':
+            cardBackground.classList.add('background-poison');
+            break;
+        case 'fire':
+            cardBackground.classList.add('background-fire');
+            break;
+        case 'flying':
+            cardBackground.classList.add('background-flying');
+            break;
+        case 'water':
+            cardBackground.classList.add('background-water');
+            break;
+        case 'bug':
+            cardBackground.classList.add('background-bug');
+            break;
+        case 'normal':
+            cardBackground.classList.add('background-normal');
+            break;
+        case 'electric':
+            cardBackground.classList.add('background-electric');
+            break;
+        case 'ground':
+            cardBackground.classList.add('background-ground');
+            break;
+        case 'fairy':
+            cardBackground.classList.add('background-fairy');
+            break;
+        default:
+            break;
+    }
+}
 
 
 function renderCard() {
