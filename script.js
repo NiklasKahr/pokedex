@@ -1,25 +1,58 @@
+let pokemons = [];
 let currentPokemon;
 let isAmerican;
 
 
-async function init() {
-    let url = 'https://pokeapi.co/api/v2/pokemon/1/';
+function init() {
+    /*let url = 'https://pokeapi.co/api/v2/pokemon/1/';
     let response = await fetch(url);
     currentPokemon = await response.json();
 
-    console.log('Loaded Pokémon:', currentPokemon)
+    console.log('Loaded Pokémon:', currentPokemon)*/
 
     //renderCard();
+    fillArray();
     renderContent();
 }
 
 
+async function fillArray() {
+    for (let i = 0; i < 50; i++) {
+        url = `https://pokeapi.co/api/v2/pokemon/${i + 1}/`;
+        let response = await fetch(url);
+        currentPokemon = await response.json();
+
+        pokemons.push(currentPokemon);
+    }
+}
+
+
 // render functions
-async function renderContent() {
+
+function renderContent() {
     document.getElementById('content').innerHTML = '';
 
-    for (let i = 1; i < 51; i++) {
-        //const element = array[i];
+    for (let i = 0; i < pokemons.length; i++) {
+        let pokemon = pokemons[i];
+        document.getElementById('content').innerHTML += `
+        <div onclick="renderCard()" id="card${i}" class="content-card px-2 py-3 m-2">
+            <div class="text-align-center">
+                <h5 id="content-name${i}" class="mb-n0_2">${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}</h5>
+                <span id="content-id${i}">#${pokemon['id']}</span>
+            </div>
+            <img id="content-sprite${i}" class="content-sprite" src="${pokemon['sprites']['other']['official-artwork']['front_default']}" 
+            alt="${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}">
+        </div>
+        `;
+
+    }
+}
+
+/*async function renderContent() {
+    document.getElementById('content').innerHTML = '';
+
+    for (let i = 0; i < 51; i++) {
+        let pokemon = pokemons[i];
         document.getElementById('content').innerHTML += `
         <div onclick="renderCard()" id="card${i}" class="content-card px-2 py-3 m-2">
             <div class="text-align-center">
@@ -35,7 +68,7 @@ async function renderContent() {
         let response = await fetch(url);
         currentPokemon = await response.json();
     }
-}
+}*/
 
 
 function renderCard() {
