@@ -253,24 +253,8 @@ footer {
     color: white;
 }
 
-.color-fire {
-    color: #ff9a9e;
-}
-
 .background-white {
     background-color: white;
-}
-
-.background-fire {
-    background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
-}
-
-.background-fire-attack {
-    background-color: #ff9a9e;
-}
-
-.border-fire {
-    border: 1px solid #ff9a9e;
 }
 
 .attacks-container {

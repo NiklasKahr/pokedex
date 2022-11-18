@@ -1,0 +1,66 @@
+/* pokemon colors */
+
+.color-grass {
+    color: #73A9AD;
+}
+
+.background-grass {
+    background-image: linear-gradient(45deg, #73A9AD, #90C8AC);
+    /*background-color: linear-gradient(to top, #c1dfc4 0%, #deecdd 100%);*/
+}
+
+.background-attack-grass {
+    background-color: #73A9AD;
+}
+
+.border-grass {
+    border: 1px solid #73A9AD;
+}
+
+.color-poison {
+    color: #937DC2;
+}
+
+.background-poison {
+    background-image: linear-gradient(45deg, #937DC2, #d989d9);
+}
+
+.background-attack-poison {
+    background-color: #937DC2;
+}
+
+.border-poison {
+    border: 1px solid #937DC2;
+}
+
+.color-fire {
+    color: #E97777;
+}
+
+.background-fire {
+    background-image: linear-gradient(45deg, #E97777, #fdaaaa);
+}
+
+.background-attack-fire {
+    background-color: #E97777;
+}
+
+.border-fire {
+    border: 1px solid #E97777;
+}
+
+.color-flying {
+    color: #53CDE2;
+}
+
+.background-flying {
+    background-image: linear-gradient(45deg, #53CDE2, #D1F4FA);
+}
+
+.background-attack-flying {
+    background-color: #53CDE2;
+}
+
+.border-flying {
+    border: 1px solid #53CDE2;
+}

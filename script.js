@@ -17,7 +17,7 @@ async function init() {
 
 
 async function fillArray() {
-    for (let i = 0; i < 905; i++) { // max of 905
+    for (let i = 0; i < 300; i++) { // max of 905
         url = `https://pokeapi.co/api/v2/pokemon/${i + 1}/`;
         let response = await fetch(url);
         currentPokemon = await response.json();
@@ -26,6 +26,17 @@ async function fillArray() {
     }
     //console.log(pokemons[3]['types']);
 }
+
+
+/*async function fillArray() {
+    for (let i = 0; i < 30; i++) { // max of 905
+        url = `https://pokeapi.co/api/v2/pokemon/${i + 152}/`;
+        let response = await fetch(url);
+        currentPokemon = await response.json();
+
+        pokemons.push(currentPokemon);
+    }
+}*/
 
 
 // render functions
@@ -45,12 +56,12 @@ function renderContent() {
         </div>
         `;
         addTypeColor(pokemon, `card${i}`);
-        logType(pokemon);
+        console.log(pokemon['id'], pokemon['types']);
     }
 }
 
 
-function logType(pokemon) {
+/*function logType(pokemon) {
     console.log(pokemon['types'][0]['type']['name']);
     if (pokemon['types'][1] !== undefined) {
         console.log(pokemon['types'][1]['type']['name']);
@@ -58,45 +69,145 @@ function logType(pokemon) {
     if (pokemon['types'][2] !== undefined) {
         console.log(pokemon['types'][2]['type']['name']);
     }
-}
+}*/
 
 
 function addTypeColor(pokemon, cardId) {
-    let type = pokemon['types'][0]['type']['name'];
-    let cardBackground = document.getElementById(cardId);
+    let type0 = pokemon['types'][0]['type']['name'];
+    let card = document.getElementById(cardId);
+    addType0Color(card, type0)
 
-    switch (type) {
+    /*if (type1Exists(pokemon)) {
+        let type1 = pokemon['types'][1]['type']['name'];
+        addType1Color(card, type1)
+    } else {
+        addType0Color(card, type0)
+    }*/
+}
+
+
+function addType0Color(card, type0) {
+
+    switch (type0) {
         case 'grass':
-            cardBackground.classList.add('background-grass');
+            card.classList.add('background-grass');
             break;
         case 'poison':
-            cardBackground.classList.add('background-poison');
+            card.classList.add('background-poison');
             break;
         case 'fire':
-            cardBackground.classList.add('background-fire');
+            card.classList.add('background-fire');
             break;
         case 'flying':
-            cardBackground.classList.add('background-flying');
+            card.classList.add('background-flying');
             break;
         case 'water':
-            cardBackground.classList.add('background-water');
+            card.classList.add('background-water');
             break;
         case 'bug':
-            cardBackground.classList.add('background-bug');
+            card.classList.add('background-bug');
             break;
         case 'normal':
-            cardBackground.classList.add('background-normal');
+            card.classList.add('background-normal');
             break;
         case 'electric':
-            cardBackground.classList.add('background-electric');
+            card.classList.add('background-electric');
             break;
         case 'ground':
-            cardBackground.classList.add('background-ground');
+            card.classList.add('background-ground');
             break;
         case 'fairy':
-            cardBackground.classList.add('background-fairy');
+            card.classList.add('background-fairy');
+            break;
+        case 'fighting':
+            card.classList.add('background-fighting');
+            break;
+        case 'psychic':
+            card.classList.add('background-psychic');
+            break;
+        case 'rock':
+            card.classList.add('background-rock');
+            break;
+        case 'steel':
+            card.classList.add('background-steel');
+            break;
+        case 'ice':
+            card.classList.add('background-ice');
+            break;
+        case 'ghost':
+            card.classList.add('background-ghost');
+            break;
+        case 'dragon':
+            card.classList.add('background-dragon');
+            break;
+        case 'dark':
+            card.classList.add('background-dark');
             break;
         default:
+            console.log('Unknown type: ', type0)
+            break;
+    }
+}
+
+
+function addType1Color(card, type1) {
+    switch (type1) {
+        case 'grass':
+            card.classList.add('background-grass');
+            break;
+        case 'poison':
+            card.classList.add('background-poison');
+            break;
+        case 'fire':
+            card.classList.add('background-fire');
+            break;
+        case 'flying':
+            card.classList.add('background-flying');
+            break;
+        case 'water':
+            card.classList.add('background-water');
+            break;
+        case 'bug':
+            card.classList.add('background-bug');
+            break;
+        case 'normal':
+            card.classList.add('background-normal');
+            break;
+        case 'electric':
+            card.classList.add('background-electric');
+            break;
+        case 'ground':
+            card.classList.add('background-ground');
+            break;
+        case 'fairy':
+            card.classList.add('background-fairy');
+            break;
+        case 'fighting':
+            card.classList.add('background-fighting');
+            break;
+        case 'psychic':
+            card.classList.add('background-psychic');
+            break;
+        case 'rock':
+            card.classList.add('background-rock');
+            break;
+        case 'steel':
+            card.classList.add('background-steel');
+            break;
+        case 'ice':
+            card.classList.add('background-ice');
+            break;
+        case 'ghost':
+            card.classList.add('background-ghost');
+            break;
+        case 'dragon':
+            card.classList.add('background-dragon');
+            break;
+        case 'dark':
+            card.classList.add('background-dark');
+            break;
+        default:
+            console.log('Unknown type: ', type1)
             break;
     }
 }
@@ -163,6 +274,12 @@ function renderProperties() {
 
 
 // conditional functions
+
+function type1Exists(pokemon) {
+    return pokemon['types'][1] !== undefined;
+}
+
+
 function attack2Undefined() {
     return currentPokemon['abilities'][2] == undefined;
 }
