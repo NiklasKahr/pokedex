@@ -18,19 +18,20 @@
 }
 
 .color-poison {
-    color: #937DC2;
+    color: #7F669D;
 }
 
 .background-poison {
-    background-image: linear-gradient(45deg, #937DC2, #d989d9);
+    background-image: linear-gradient(45deg, #7F669D, #BA94D1);
+    /*background-image: linear-gradient(45deg, #937DC2, #d989d9);*/
 }
 
 .background-attack-poison {
-    background-color: #937DC2;
+    background-color: #7F669D;
 }
 
 .border-poison {
-    border: 1px solid #937DC2;
+    border: 1px solid #7F669D;
 }
 
 .color-fire {
@@ -39,6 +40,7 @@
 
 .background-fire {
     background-image: linear-gradient(45deg, #E97777, #fdaaaa);
+    /*FF7171 fdaaaa*/
 }
 
 .background-attack-fire {
@@ -63,4 +65,170 @@
 
 .border-flying {
     border: 1px solid #53CDE2;
+}
+
+.color-water {
+    color: #709FB0;
+}
+
+.background-water {
+    background-image: linear-gradient(45deg, #709FB0, #A7C5EB);
+}
+
+.background-attack-water {
+    background-color: #709FB0;
+}
+
+.border-water {
+    border: 1px solid #709FB0;
+}
+
+.color-bug {
+    color: #9EB23B;
+}
+
+.background-bug {
+    background-image: linear-gradient(45deg, #9EB23B, #cfdb73);
+
+}
+
+.background-attack-bug {
+    background-color: #9EB23B;
+}
+
+.border-bug {
+    border: 1px solid #9EB23B;
+}
+
+.color-normal {
+    color: #a8a878;
+}
+
+.background-normal {
+    background-image: linear-gradient(45deg, #a8a878, #dfdfae);
+}
+
+.background-attack-normal {
+    background-color: #a8a878;
+}
+
+.border-normal {
+    border: 1px solid #a8a878;
+}
+
+.color-electric {
+    color: #f4ba1a;
+}
+
+.background-electric {
+    background-image: linear-gradient(45deg, #f4ba1a, #ffe56f);
+
+}
+
+.background-attack-electric {
+    background-color: #f4ba1a;
+}
+
+.border-electric {
+    border: 1px solid #f4ba1a;
+}
+
+.color-ground {
+    color: #CFB997;
+}
+
+.background-ground {
+    background-image: linear-gradient(45deg, #CFB997, #FAD6A5);
+
+}
+
+.background-attack-ground {
+    background-color: #CFB997;
+}
+
+.border-ground {
+    border: 1px solid #CFB997;
+}
+
+.color-fairy {
+    color: #FFA1CF;
+}
+
+.background-fairy {
+    background-image: linear-gradient(45deg, #FFA1CF, #FFCACA);
+
+}
+
+.background-attack-fairy {
+    background-color: #FFA1CF;
+}
+
+.border-fairy {
+    border: 1px solid #FFA1CF;
+}
+
+.color-fighting {
+    color: #c03028;
+}
+
+.background-fighting {
+    background-image: linear-gradient(45deg, #c03028, #c55e59);
+
+}
+
+.background-attack-fighting {
+    background-color: #c03028;
+}
+
+.border-fighting {
+    border: 1px solid #c03028;
+}
+
+.color-psychic {
+    color: #D989B5;
+}
+
+.background-psychic {
+    background-image: linear-gradient(45deg, #D989B5, #FFADBC);
+}
+
+.background-attack-psychic {
+    background-color: #D989B5;
+}
+
+.border-psychic {
+    border: 1px solid #D989B5;
+}
+
+.color-rock {
+    color: #8d918c;
+}
+
+.background-rock {
+    background-image: linear-gradient(45deg, #8d918c, #c4c7c2);
+
+}
+
+.background-attack-rock {
+    background-color: #8d918c;
+}
+
+.border-rock {
+    border: 1px solid #8d918c;
+}
+
+.color-steel {
+    color: #a6a6b4;
+}
+
+.background-steel {
+    background-image: linear-gradient(45deg, #a6a6b4, #d9d9eb);
+}
+
+.background-attack-steel {
+    background-color: #a6a6b4;
+}
+
+.border-steel {
+    border: 1px solid #a6a6b4;
 }
