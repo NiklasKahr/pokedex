@@ -156,7 +156,7 @@ footer {
 #sprite {
     width: 192px;
     height: 192px;
-    transform: scaleX(-1);
+    /*transform: scaleX(-1);*/
 }
 
 .d-none {
