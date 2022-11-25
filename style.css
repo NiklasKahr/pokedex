@@ -3,7 +3,7 @@ body {
     letter-spacing: -1px;
     background-image: url(./img/background4.jpg);
     color: white !important;
-    /*background-size: cover;*/
+    background-size: cover;
 }
 
 a {
@@ -123,7 +123,6 @@ footer {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    background: lightgray;
     width: 15.3%;
     min-width: 165px;
     min-height: 225px;
@@ -141,10 +140,27 @@ footer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: fixed;
+    top: 22vh;
+    bottom: 22vh;
+    right: 42vw;
+    left: 42vw;
+    min-width: 320px;
+    border-radius: 10px;
+    /*420x280*/
+}
+
+/*
+#selected-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 30vh;
     height: 45vh;
     border-radius: 10px;
 }
+*/
 
 .sub-selected-card {
     display: flex;
@@ -250,24 +266,33 @@ footer {
     color: black;
 }
 
-.color-white {
+/*.color-white {
     color: white;
-}
+}*/
 
 .background-white {
     background-color: white;
 }
 
-.attacks-container {
+.background-lightgray {
+    background: lightgray;
+}
+
+.moves-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
 }
 
-.sub-attacks {
+.sub-moves {
     display: flex;
-    justify-content: space-evenly;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.moves {
+    width: 46%;
 }
 
 .border-radius-6p {
@@ -297,7 +322,6 @@ footer {
 }
 
 .sub-properties {
-    text-align: center;
     width: 33.33%;
 }
 

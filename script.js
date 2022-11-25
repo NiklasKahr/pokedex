@@ -27,7 +27,7 @@ function renderContent() {
     for (let i = 0; i < pokemons.length; i++) {
         let pokemon = pokemons[i];
         document.getElementById('content').innerHTML += `
-        <div onclick="renderCard(${i})" id="card${i}" class="content-card px-2 py-3 m-2 shadow-sm">
+        <div onclick="renderCard(${i})" id="card${i}" class="background-${evaluateType(pokemon)} content-card background-lightgray px-2 py-3 m-2 shadow-sm">
             <div class="text-align-center">
                 <h5 id="content-name${i}" class="mb-n0_2">${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}</h5>
                 <span id="content-id${i}">#${pokemon['id']}</span>
@@ -36,26 +36,203 @@ function renderContent() {
             alt="${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}">
         </div>
         `;
-        addTypeColor(pokemon, `card${i}`);
-        console.log(pokemon['id'], pokemon['name'], pokemon);
+        console.log('#' + pokemon['id'], pokemon);
     }
 }
 
 
-function addTypeColor(pokemon, cardId) {
-    let card = document.getElementById(cardId);
+//if type0 is normal and type1 exists, color of type1 gets added
+function evaluateType(pokemon) {
 
     if (type0EqualsNormal(pokemon) && hasType1(pokemon)) {
         let type1 = pokemon['types'][1]['type']['name'];
-        addBackgroundColor(card, type1);
+        return type1;
     } else {
         let type0 = pokemon['types'][0]['type']['name'];
-        addBackgroundColor(card, type0);
+        return type0;
     }
 }
 
 
-function addBackgroundColor(card, type) {
+function renderCard(i) {
+    let pokemon = pokemons[i];
+    let selectedCard = document.getElementById('selected-card');
+
+    renderCredentials(pokemon);
+    renderMoves(pokemon);
+    renderProperties(pokemon);
+    replaceColor(selectedCard, 'background', pokemon);
+
+    document.getElementById("unit-button").onclick = function () { convertUnits(i); };
+    convertToInternational(pokemon); //maybe do something about this
+
+    document.getElementById('selected-card').classList.remove('d-none');
+}
+
+
+function replaceColor(element, colorProperty, pokemon) {
+    let currentColor = Array.from(element.classList)[0];
+    element.classList.replace(currentColor, `${colorProperty}-` + evaluateType(pokemon));
+}
+
+
+function renderCredentials(pokemon) {
+    document.getElementById('name').innerHTML = pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1);
+    document.getElementById('id').innerHTML = '#' + pokemon['id'];
+    document.getElementById('sprite').src = pokemon['sprites']['other']['official-artwork']['front_default'];
+}
+
+
+function renderMoves(pokemon) {
+    let move0Name = pokemon['moves'][0]['move']['name'];
+    let move0 = document.getElementById('move0');
+
+    move0.innerHTML = move0Name.charAt(0).toUpperCase() + move0Name.slice(1);
+    replaceColor(move0, 'background-move', pokemon);
+
+    renderMoves1To3(pokemon);
+}
+
+
+function renderMoves1To3(pokemon) {
+    if (moveUndefined(pokemon, 1)) { // at ln ...
+        document.getElementById('move1').classList.add('d-none');
+    } else {
+        let move1Name = pokemon['moves'][1]['move']['name'];
+        let move1 = document.getElementById('move1');
+
+        move1.innerHTML = move1Name.charAt(0).toUpperCase() + move1Name.slice(1);
+        replaceColor(move1, 'background-move', pokemon);
+
+        document.getElementById('move1').classList.remove('d-none');
+    }
+
+    if (moveUndefined(pokemon, 2)) { // at ln ...
+        document.getElementById('move2').classList.add('d-none');
+    } else {
+        let move2Name = pokemon['moves'][2]['move']['name'];
+        let move2 = document.getElementById('move2');
+
+        move2.innerHTML = move2Name.charAt(0).toUpperCase() + move2Name.slice(1);
+        replaceColor(move2, 'background-move', pokemon);
+
+        document.getElementById('move2').classList.remove('d-none');
+    }
+
+    if (moveUndefined(pokemon, 3)) { // at ln ...
+        document.getElementById('move3').classList.add('d-none');
+    } else {
+        let move3Name = pokemon['moves'][3]['move']['name'];
+        let move3 = document.getElementById('move3');
+
+        move3.innerHTML = move3Name.charAt(0).toUpperCase() + move3Name.slice(1);
+        replaceColor(move3, 'background-move', pokemon);
+
+        document.getElementById('move3').classList.remove('d-none');
+    }
+}
+
+
+function renderProperties(pokemon) {
+    let type = document.getElementById('type');
+    let weight = document.getElementById('weight');
+    let height = document.getElementById('height');
+
+    type.innerHTML =
+        pokemon['types'][0]['type']['name'].charAt(0).toUpperCase() + pokemon['types'][0]['type']['name'].slice(1);
+    weight.innerHTML =
+        (pokemon['weight'] / 10).toFixed(1).replace('.', ',') + '<span class="font-14px ms-0_05">kg</span>';
+    height.innerHTML =
+        (pokemon['height'] / 10).toFixed(2).replace('.', ',') + '<span class="font-14px ms-0_05">m</span>';
+}
+
+
+// conditional functions
+function type0EqualsNormal(pokemon) {
+    return pokemon['types'][0]['type']['name'] == 'normal';
+}
+
+
+function hasType1(pokemon) {
+    return pokemon['types'][1];
+}
+
+
+function moveUndefined(pokemon, moveNumber) {
+    return pokemon['moves'][moveNumber] == undefined;
+}
+
+
+// convert functions
+function convertUnits(i) {
+    let pokemon = pokemons[i]
+    if (isAmerican) {
+        convertToInternational(pokemon);
+    } else {
+        convertToAmerican();
+    }
+}
+
+
+function convertToInternational(pokemon) {
+    document.getElementById('weight').innerHTML = (pokemon['weight'] / 10).toFixed(1).replace('.', ',') + '<span class="font-14px ms-0_05">kg</span>';
+    document.getElementById('height').innerHTML = (pokemon['height'] / 10).toFixed(2).replace('.', ',') + '<span class="font-14px ms-0_05">m</span>';
+
+    document.getElementById('unit-button').innerHTML = 'lb/ft';
+    isAmerican = false;
+}
+
+
+function convertToAmerican() {
+    let weight = document.getElementById('weight');
+    let height = document.getElementById('height');
+    let weightInKg = weight.childNodes[0]['data'].replace(',', '.');
+    let heightInM = height.childNodes[0]['data'].replace(',', '.');
+
+    weight.innerHTML = (weightInKg * 2.205).toFixed(1) + '<span class="font-14px ms-0_05">lb</span>';
+    height.innerHTML = (heightInM * 3.281).toFixed(2) + '<span class="font-14px ms-0_05">ft</span>';
+
+    document.getElementById('unit-button').innerHTML = 'kg/m';
+    isAmerican = true;
+}
+
+
+//search function
+/*async function searchCards() {
+    let search = document.getElementById('search').value.toLowerCase();
+
+    console.log(search);
+    document.getElementById('content').innerHTML = '';
+
+    if (search == '') {
+        renderContent();
+    }
+
+    for (let i = 1; i < 51; i++) {
+        let pokemon = pokemons[i];
+        if (pokemon['name'].includes(search) || pokemon['id'].toString().includes(search)) {
+            document.getElementById('content').innerHTML += `
+                <div onclick="renderCard()" id="card${i}" class="content-card px-2 py-3 m-2">
+            <div class="text-align-center">
+                <h5 id="content-name${i}" class="mb-n0_2">${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}</h5>
+                <span id="content-id${i}">#${pokemon['id']}</span>
+            </div>
+                <img id="content-sprite${i}" class="content-sprite" src="${pokemon['sprites']['other']['official-artwork']['front_default']}"
+                alt="${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}">
+            </div>
+            `;
+        }
+
+        evaluateType(pokemon, `card${i}`);
+        console.log(pokemon['id'], pokemon['types']);
+    }
+}*/
+
+
+//parameters explained: pokemon sets color, cardId determines card 
+/*function addBackgroundColor(pokemon, cardId) {
+    let type = evaluateType(pokemon);
+    let card = document.getElementById(cardId);
 
     switch (type) {
         case 'grass':
@@ -116,160 +293,4 @@ function addBackgroundColor(card, type) {
             console.log('Unknown type: ', type)
             break;
     }
-}
-
-
-function renderCard(i) {
-    let pokemon = pokemons[i];
-    renderCredentials(pokemon);
-    renderAttacks(pokemon);
-    renderProperties(pokemon);
-    if (!buttonExists()) {
-        document.getElementById('selected-card').innerHTML += `
-        <button onclick="convertUnits(${i})" id="unit-button" class="btn btn-white shadow-sm">lb/ft</button>
-        `;
-    }
-    convertToInternational(pokemon)
-    document.getElementById('selected-card').classList.remove('d-none');
-}
-
-
-function renderCredentials(pokemon) {
-    document.getElementById('name').innerHTML = pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1);
-    document.getElementById('id').innerHTML = '#' + pokemon['id'];
-    document.getElementById('sprite').src = pokemon['sprites']['other']['official-artwork']['front_default'];
-}
-
-
-function renderAttacks(pokemon) {
-    let attack0Name = pokemon['abilities'][0]['ability']['name'];
-    document.getElementById('attacks-text0').innerHTML = attack0Name.charAt(0).toUpperCase() + attack0Name.slice(1);
-
-    renderAttacks1To3(pokemon);
-}
-
-
-function renderAttacks1To3(pokemon) {
-
-    if (attackUndefined(pokemon, 1)) { // at ln ...
-        document.getElementById('attacks-text1').classList.add('d-none');
-    } else {
-        let attack1Name = pokemon['abilities'][1]['ability']['name'];
-        //document.getElementById('attacks-text1').classList.remove('d-none');
-        document.getElementById('attacks-text1').innerHTML = attack1Name.charAt(0).toUpperCase() + attack1Name.slice(1);
-    }
-
-    if (attackUndefined(pokemon, 2)) { // at ln ...
-        document.getElementById('attacks-text2').classList.add('d-none');
-    } else {
-        let attack2Name = pokemon['abilities'][2]['ability']['name'];
-        //document.getElementById('attacks-text2').classList.remove('d-none');
-        document.getElementById('attacks-text2').innerHTML = attack2Name.charAt(0).toUpperCase() + attack2Name.slice(1);
-    }
-
-    if (attackUndefined(pokemon, 3)) { // at ln ...
-        document.getElementById('attacks-text3').classList.add('d-none');
-    } else {
-        let attack3Name = pokemon['abilities'][3]['ability']['name'];
-        //document.getElementById('attacks-text3').classList.remove('d-none');
-        document.getElementById('attacks-text3').innerHTML = attack3Name.charAt(0).toUpperCase() + attack3Name.slice(1);
-    }
-}
-
-
-function renderProperties(pokemon) {
-    let type = document.getElementById('type');
-    let weight = document.getElementById('weight');
-    let height = document.getElementById('height');
-
-    type.innerHTML =
-        pokemon['types'][0]['type']['name'].charAt(0).toUpperCase() + pokemon['types'][0]['type']['name'].slice(1);
-    weight.innerHTML =
-        (pokemon['weight'] / 10).toFixed(1).replace('.', ',') + '<span class="font-14px ms-0_05">kg</span>';
-    height.innerHTML =
-        (pokemon['height'] / 10).toFixed(2).replace('.', ',') + '<span class="font-14px ms-0_05">m</span>';
-}
-
-
-// conditional functions
-function type0EqualsNormal(pokemon) {
-    return pokemon['types'][0]['type']['name'] == 'normal';
-}
-
-function hasType1(pokemon) {
-    return pokemon['types'][1];
-}
-
-function attackUndefined(pokemon, attackNumber) {
-    return pokemon['abilities'][attackNumber] == undefined;
-}
-
-function buttonExists() {
-    return document.getElementById('unit-button');
-}
-
-
-// convert functions
-function convertUnits(i) {
-    let pokemon = pokemons[i]
-    if (isAmerican) {
-        convertToInternational(pokemon);
-    } else {
-        convertToAmerican();
-    }
-}
-
-
-function convertToInternational(pokemon) {
-    document.getElementById('weight').innerHTML = (pokemon['weight'] / 10).toFixed(1).replace('.', ',') + '<span class="font-14px ms-0_05">kg</span>';
-    document.getElementById('height').innerHTML = (pokemon['height'] / 10).toFixed(2).replace('.', ',') + '<span class="font-14px ms-0_05">m</span>';
-
-    document.getElementById('unit-button').innerHTML = 'lb/ft';
-    isAmerican = false;
-}
-
-
-function convertToAmerican() {
-    let weight = document.getElementById('weight');
-    let height = document.getElementById('height');
-    let weightInKg = weight.childNodes[0]['data'].replace(',', '.');
-    let heightInM = height.childNodes[0]['data'].replace(',', '.');
-
-    weight.innerHTML = (weightInKg * 2.205).toFixed(1) + '<span class="font-14px ms-0_05">lb</span>';
-    height.innerHTML = (heightInM * 3.281).toFixed(2) + '<span class="font-14px ms-0_05">ft</span>';
-
-    document.getElementById('unit-button').innerHTML = 'kg/m';
-    isAmerican = true;
-}
-
-
-//search function
-async function searchCards() {
-    let search = document.getElementById('search').value.toLowerCase();
-
-    console.log(search);
-    document.getElementById('content').innerHTML = '';
-
-    if (search == '') {
-        renderContent();
-    }
-
-    for (let i = 1; i < 51; i++) {
-        let pokemon = pokemons[i];
-        if (pokemon['name'].includes(search) || pokemon['id'].toString().includes(search)) {
-            document.getElementById('content').innerHTML += `
-                <div onclick="renderCard()" id="card${i}" class="content-card px-2 py-3 m-2">
-            <div class="text-align-center">
-                <h5 id="content-name${i}" class="mb-n0_2">${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}</h5>
-                <span id="content-id${i}">#${pokemon['id']}</span>
-            </div>
-                <img id="content-sprite${i}" class="content-sprite" src="${pokemon['sprites']['other']['official-artwork']['front_default']}" 
-                alt="${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}">
-            </div>
-            `;
-        }
-
-        addTypeColor(pokemon, `card${i}`);
-        console.log(pokemon['id'], pokemon['types']);
-    }
-}
+}*/
