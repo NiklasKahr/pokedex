@@ -41,10 +41,10 @@ function renderContent() {
 }
 
 
-//if type0 is normal and type1 exists, color of type1 gets added
+//if type0 is normal and type1 exists, return type1
 function evaluateType(pokemon) {
 
-    if (type0EqualsNormal(pokemon) && hasType1(pokemon)) {
+    if (type0EqualsNormal(pokemon) && has2Types(pokemon)) {
         let type1 = pokemon['types'][1]['type']['name'];
         return type1;
     } else {
@@ -55,6 +55,8 @@ function evaluateType(pokemon) {
 
 
 function renderCard(i) {
+    showElement('container-black');
+
     let pokemon = pokemons[i];
     let selectedCard = document.getElementById('selected-card');
 
@@ -66,7 +68,6 @@ function renderCard(i) {
     document.getElementById("unit-button").onclick = function () { convertUnits(i); };
     convertToInternational(pokemon); //maybe do something about this
 
-    document.getElementById('selected-card').classList.remove('d-none');
 }
 
 
@@ -95,8 +96,8 @@ function renderMoves(pokemon) {
 
 
 function renderMoves1To3(pokemon) {
-    if (moveUndefined(pokemon, 1)) { // at ln ...
-        document.getElementById('move1').classList.add('d-none');
+    if (moveUndefined(pokemon, 1)) {
+        hideElement('move1');
     } else {
         let move1Name = pokemon['moves'][1]['move']['name'];
         let move1 = document.getElementById('move1');
@@ -104,11 +105,11 @@ function renderMoves1To3(pokemon) {
         move1.innerHTML = move1Name.charAt(0).toUpperCase() + move1Name.slice(1);
         replaceColor(move1, 'background-move', pokemon);
 
-        document.getElementById('move1').classList.remove('d-none');
+        showElement('move1');
     }
 
-    if (moveUndefined(pokemon, 2)) { // at ln ...
-        document.getElementById('move2').classList.add('d-none');
+    if (moveUndefined(pokemon, 2)) {
+        hideElement('move2');
     } else {
         let move2Name = pokemon['moves'][2]['move']['name'];
         let move2 = document.getElementById('move2');
@@ -116,11 +117,11 @@ function renderMoves1To3(pokemon) {
         move2.innerHTML = move2Name.charAt(0).toUpperCase() + move2Name.slice(1);
         replaceColor(move2, 'background-move', pokemon);
 
-        document.getElementById('move2').classList.remove('d-none');
+        showElement('move2');
     }
 
-    if (moveUndefined(pokemon, 3)) { // at ln ...
-        document.getElementById('move3').classList.add('d-none');
+    if (moveUndefined(pokemon, 3)) {
+        hideElement('move3');
     } else {
         let move3Name = pokemon['moves'][3]['move']['name'];
         let move3 = document.getElementById('move3');
@@ -128,32 +129,76 @@ function renderMoves1To3(pokemon) {
         move3.innerHTML = move3Name.charAt(0).toUpperCase() + move3Name.slice(1);
         replaceColor(move3, 'background-move', pokemon);
 
-        document.getElementById('move3').classList.remove('d-none');
+        showElement('move3');
     }
 }
 
 
 function renderProperties(pokemon) {
-    let type = document.getElementById('type');
-    let weight = document.getElementById('weight');
-    let height = document.getElementById('height');
+    renderType(pokemon);
 
-    type.innerHTML =
-        pokemon['types'][0]['type']['name'].charAt(0).toUpperCase() + pokemon['types'][0]['type']['name'].slice(1);
-    weight.innerHTML =
-        (pokemon['weight'] / 10).toFixed(1).replace('.', ',') + '<span class="font-14px ms-0_05">kg</span>';
-    height.innerHTML =
-        (pokemon['height'] / 10).toFixed(2).replace('.', ',') + '<span class="font-14px ms-0_05">m</span>';
+    let weight = document.getElementById('weight');
+    weight.innerHTML = (pokemon['weight'] / 10).toFixed(1).replace('.', ',');
+
+    let height = document.getElementById('height');
+    height.innerHTML = (pokemon['height'] / 10).toFixed(2).replace('.', ',');
 }
 
 
-// conditional functions
+function renderType(pokemon) {
+    let type = document.getElementById('type');
+
+    if (has2Types(pokemon)) {
+        type.innerHTML =
+            pokemon['types'][0]['type']['name'].charAt(0).toUpperCase() +
+            pokemon['types'][0]['type']['name'].slice(1) + '<br>' +
+            pokemon['types'][1]['type']['name'].charAt(0).toUpperCase() +
+            pokemon['types'][1]['type']['name'].slice(1);
+
+        adjustPropertyElements();
+    } else {
+        type.innerHTML =
+            evaluateType(pokemon).charAt(0).toUpperCase() + evaluateType(pokemon).slice(1);
+
+        adjustPropertyElements();
+    }
+}
+
+function adjustPropertyElements() {
+    let typeElementHeight = type.getBoundingClientRect()['height'] + 'px';
+
+    weight.style.height = typeElementHeight;
+    weight.classList.add('property-alignment');
+    document.getElementById('kg-lb-span').classList.add('unit-alignment');
+
+    height.style.height = typeElementHeight;
+    height.classList.add('property-alignment');
+    document.getElementById('m-ft-span').classList.add('unit-alignment');
+}
+
+
+function showElement(id) {
+    document.getElementById(id).classList.remove('d-none');
+}
+
+
+function hideElement(id) {
+    document.getElementById(id).classList.add('d-none');
+}
+
+
+function doNotClose(event) {
+    event.stopPropagation();
+}
+
+
+// conditional
 function type0EqualsNormal(pokemon) {
     return pokemon['types'][0]['type']['name'] == 'normal';
 }
 
 
-function hasType1(pokemon) {
+function has2Types(pokemon) {
     return pokemon['types'][1];
 }
 
@@ -163,7 +208,11 @@ function moveUndefined(pokemon, moveNumber) {
 }
 
 
-// convert functions
+// scrollbar
+
+
+
+// convert
 function convertUnits(i) {
     let pokemon = pokemons[i]
     if (isAmerican) {
@@ -175,8 +224,11 @@ function convertUnits(i) {
 
 
 function convertToInternational(pokemon) {
-    document.getElementById('weight').innerHTML = (pokemon['weight'] / 10).toFixed(1).replace('.', ',') + '<span class="font-14px ms-0_05">kg</span>';
-    document.getElementById('height').innerHTML = (pokemon['height'] / 10).toFixed(2).replace('.', ',') + '<span class="font-14px ms-0_05">m</span>';
+    document.getElementById('weight').innerHTML = (pokemon['weight'] / 10).toFixed(1).replace('.', ',');
+    document.getElementById('kg-lb-span').innerHTML = 'kg';
+
+    document.getElementById('height').innerHTML = (pokemon['height'] / 10).toFixed(2).replace('.', ',');
+    document.getElementById('m-ft-span').innerHTML = 'm';
 
     document.getElementById('unit-button').innerHTML = 'lb/ft';
     isAmerican = false;
@@ -189,8 +241,11 @@ function convertToAmerican() {
     let weightInKg = weight.childNodes[0]['data'].replace(',', '.');
     let heightInM = height.childNodes[0]['data'].replace(',', '.');
 
-    weight.innerHTML = (weightInKg * 2.205).toFixed(1) + '<span class="font-14px ms-0_05">lb</span>';
-    height.innerHTML = (heightInM * 3.281).toFixed(2) + '<span class="font-14px ms-0_05">ft</span>';
+    weight.innerHTML = (weightInKg * 2.205).toFixed(1);
+    document.getElementById('kg-lb-span').innerHTML = 'lb';
+
+    height.innerHTML = (heightInM * 3.281).toFixed(2);
+    document.getElementById('m-ft-span').innerHTML = 'ft';
 
     document.getElementById('unit-button').innerHTML = 'kg/m';
     isAmerican = true;
@@ -294,3 +349,7 @@ function convertToAmerican() {
             break;
     }
 }*/
+
+/*mobile devices
+$('body').bind('touchmove', function(e){e.preventDefault()})
+$('body').unbind('touchmove')*/

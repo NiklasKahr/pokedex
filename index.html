@@ -44,8 +44,9 @@
 
     </div>
 
-    <div>
-        <div id="selected-card" class="background-lightgray px-2 py-3 z-index-1 shadow d-none">
+    <div onclick="hideElement('container-black')" id="container-black" class="container-black d-none">
+        <div onclick="doNotClose(event)" id="selected-card"
+            class="background-lightgray px-2 py-3 mx-2 z-index-1 shadow">
             <div class="text-align-center">
                 <h5 id="name" class="mb-0"></h5>
                 <span id="id" class="font-14px"></span>
@@ -53,7 +54,7 @@
             <div class="sub-selected-card mb-2_75">
                 <img id="sprite" class="z-index-3 mb-n2_3">
                 <div class="moves-container">
-                    <div class="sub-moves w-90 h-100 background-white p-2 border-radius-6p z-index-3 shadow-sm">
+                    <div class="sub-moves w-90 background-white p-2 border-radius-6p z-index-3 shadow-sm">
                         <span id="move0"
                             class="background-lightgray moves text-align-center px-1 py-05 m-1 border-radius-6p"></span>
                         <span id="move1"
@@ -75,13 +76,23 @@
                     <span class="font-14px">Type</span>
                 </div>
 
-                <div class="sub-properties py-1 border-left-right">
-                    <h5 id="weight" class="mb-0"></h5>
+                <div class="border-left-white"></div>
+
+                <div class="sub-properties py-1">
+                    <div class="property-alignment h-100">
+                        <h5 id="weight" class="mb-0"></h5>
+                        <span id="kg-lb-span" class="unit-alignment font-14px ms-0_05">kg</span>
+                    </div>
                     <span class="font-14px">Weight</span>
                 </div>
 
+                <div class="border-right-white"></div>
+
                 <div class="sub-properties py-1">
-                    <h5 id="height" class="mb-0"></h5>
+                    <div class="property-alignment h-100">
+                        <h5 id="height" class="mb-0"></h5>
+                        <span id="m-ft-span" class="unit-alignment font-14px ms-0_05">m</span>
+                    </div>
                     <span class="font-14px">Height</span>
                 </div>
             </div>
