@@ -55,19 +55,17 @@ function evaluateType(pokemon) {
 
 
 function renderCard(i) {
-    showElement('container-black');
-
     let pokemon = pokemons[i];
-    let selectedCard = document.getElementById('selected-card');
+    showElement('container-black');
 
     renderCredentials(pokemon);
     renderMoves(pokemon);
-    renderProperties(pokemon);
-    replaceColor(selectedCard, 'background', pokemon);
+    renderType(pokemon);
+    if (isAmerican) { convertToAmerican(pokemon); } else { convertToInternational(pokemon); }
+    replaceColor(document.getElementById('selected-card'), 'background', pokemon);
 
     document.getElementById("unit-button").onclick = function () { convertUnits(i); };
-    convertToInternational(pokemon); //maybe do something about this
-
+    //convertToInternational(pokemon); //maybe do something about this
 }
 
 
@@ -134,17 +132,6 @@ function renderMoves1To3(pokemon) {
 }
 
 
-function renderProperties(pokemon) {
-    renderType(pokemon);
-
-    let weight = document.getElementById('weight');
-    weight.innerHTML = (pokemon['weight'] / 10).toFixed(1).replace('.', ',');
-
-    let height = document.getElementById('height');
-    height.innerHTML = (pokemon['height'] / 10).toFixed(2).replace('.', ',');
-}
-
-
 function renderType(pokemon) {
     let type = document.getElementById('type');
 
@@ -155,25 +142,25 @@ function renderType(pokemon) {
             pokemon['types'][1]['type']['name'].charAt(0).toUpperCase() +
             pokemon['types'][1]['type']['name'].slice(1);
 
-        adjustPropertyElements();
+        adjustPropertyElements('add');
     } else {
         type.innerHTML =
             evaluateType(pokemon).charAt(0).toUpperCase() + evaluateType(pokemon).slice(1);
 
-        adjustPropertyElements();
+        adjustPropertyElements('remove');
     }
 }
 
-function adjustPropertyElements() {
+function adjustPropertyElements(action) {
     let typeElementHeight = type.getBoundingClientRect()['height'] + 'px';
 
     weight.style.height = typeElementHeight;
     weight.classList.add('property-alignment');
-    document.getElementById('kg-lb-span').classList.add('unit-alignment');
+    document.getElementById('kg-lb').classList.${action}('unit-alignment');
 
     height.style.height = typeElementHeight;
     height.classList.add('property-alignment');
-    document.getElementById('m-ft-span').classList.add('unit-alignment');
+    document.getElementById('m-ft').classList.${action}('unit-alignment');
 }
 
 
@@ -215,40 +202,41 @@ function moveUndefined(pokemon, moveNumber) {
 // convert
 function convertUnits(i) {
     let pokemon = pokemons[i]
+
     if (isAmerican) {
         convertToInternational(pokemon);
+        isAmerican = false;
     } else {
-        convertToAmerican();
+        convertToAmerican(pokemon);
+        isAmerican = true;
     }
 }
 
 
 function convertToInternational(pokemon) {
     document.getElementById('weight').innerHTML = (pokemon['weight'] / 10).toFixed(1).replace('.', ',');
-    document.getElementById('kg-lb-span').innerHTML = 'kg';
+    document.getElementById('kg-lb').innerHTML = 'kg';
 
     document.getElementById('height').innerHTML = (pokemon['height'] / 10).toFixed(2).replace('.', ',');
-    document.getElementById('m-ft-span').innerHTML = 'm';
+    document.getElementById('m-ft').innerHTML = 'm';
 
     document.getElementById('unit-button').innerHTML = 'lb/ft';
-    isAmerican = false;
 }
 
 
-function convertToAmerican() {
+function convertToAmerican(pokemon) {
     let weight = document.getElementById('weight');
     let height = document.getElementById('height');
-    let weightInKg = weight.childNodes[0]['data'].replace(',', '.');
-    let heightInM = height.childNodes[0]['data'].replace(',', '.');
+    //let weightInKg = weight.childNodes[0]['data'].replace(',', '.');
+    //let heightInM = height.childNodes[0]['data'].replace(',', '.');
 
-    weight.innerHTML = (weightInKg * 2.205).toFixed(1);
-    document.getElementById('kg-lb-span').innerHTML = 'lb';
+    weight.innerHTML = ((pokemon['weight'] / 10) * 2.205).toFixed(1);
+    document.getElementById('kg-lb').innerHTML = 'lb';
 
-    height.innerHTML = (heightInM * 3.281).toFixed(2);
-    document.getElementById('m-ft-span').innerHTML = 'ft';
+    height.innerHTML = ((pokemon['height'] / 10) * 3.281).toFixed(2);
+    document.getElementById('m-ft').innerHTML = 'ft';
 
     document.getElementById('unit-button').innerHTML = 'kg/m';
-    isAmerican = true;
 }
 
 
