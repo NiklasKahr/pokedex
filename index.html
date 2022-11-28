@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokédex</title>
-    <link rel="shortcut icon" href="./img/favicon.png">
+    <link rel="shortcut icon" href="./img/4.png">
 
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./fonts.css">
@@ -25,7 +25,7 @@
     <header class="header padding">
         <div class="logo-container">
             <a title="pokemon.com" href="https://www.pokemon.com" target="_blank">
-                <img class="logo logo-animation" src="./img/favicon.png" alt="Pokéball">
+                <img class="logo logo-animation" src="./img/4.png" alt="Pokéball">
             </a>
             <span class="color-black ms-3 disappear-animation">Stay up to date!</span>
         </div>
@@ -33,10 +33,6 @@
         <div class="search-bar-container">
             <img class="magnifying-glass" src="img/magnifying-glass.png" alt="Lupe">
             <input class="search-bar" id="search" onkeyup="searchCards()" placeholder="Search">
-        </div>
-
-        <div class="favorite-container">
-            <img class="favorite" src="./img/favorite.jpg" alt="Favorite">
         </div>
     </header>
 
@@ -79,8 +75,8 @@
                 <div class="border-left-white"></div>
 
                 <div class="sub-properties py-1">
-                    <div class="property-alignment h-100">
-                        <h5 id="weight" class="mb-0"></h5>
+                    <div id="weight-container">
+                        <h5 id="weight" class="property-alignment mb-0"></h5>
                         <span id="kg-lb" class="unit-alignment font-14px ms-0_05"></span>
                     </div>
                     <span class="font-14px">Weight</span>
@@ -89,8 +85,8 @@
                 <div class="border-right-white"></div>
 
                 <div class="sub-properties py-1">
-                    <div class="property-alignment h-100">
-                        <h5 id="height" class="mb-0"></h5>
+                    <div id="height-container">
+                        <h5 id="height" class="property-alignment mb-0"></h5>
                         <span id="m-ft" class="unit-alignment font-14px ms-0_05"></span>
                     </div>
                     <span class="font-14px">Height</span>
