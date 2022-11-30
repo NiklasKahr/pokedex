@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokédex</title>
-    <link rel="shortcut icon" href="./img/4.png">
+    <link rel="shortcut icon" href="./img/favicon.png">
 
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./fonts.css">
@@ -25,7 +25,7 @@
     <header class="header padding">
         <div class="logo-container">
             <a title="pokemon.com" href="https://www.pokemon.com" target="_blank">
-                <img class="logo logo-animation" src="./img/4.png" alt="Pokéball">
+                <img class="logo logo-animation" src="./img/favicon.png" alt="Pokéball">
             </a>
             <span class="color-black ms-3 disappear-animation">Stay up to date!</span>
         </div>
@@ -43,30 +43,30 @@
     <div onclick="hideElement('container-black')" id="container-black" class="container-black d-none">
         <div onclick="doNotClose(event)" id="selected-card"
             class="background-lightgray px-2 py-3 mx-2 z-index-1 shadow">
-            <div class="text-align-center">
+            <div class="name-id-container text-align-center">
                 <h5 id="name" class="mb-0"></h5>
                 <span id="id" class="font-14px"></span>
             </div>
-            <div class="sub-selected-card mb-2_75">
-                <img id="sprite" class="z-index-3 mb-n2_3">
+            <div class="sub-selected-card">
+                <img id="sprite" class="z-index-2 mb-n2_3">
                 <div class="moves-container">
-                    <div class="sub-moves w-90 background-white p-2 border-radius-6p z-index-3 shadow-sm">
+                    <div class="sub-moves w-90 background-white p-2 border-radius-6p z-index-1 shadow-sm">
                         <span id="move0"
-                            class="background-lightgray moves text-align-center px-1 py-05 m-1 border-radius-6p"></span>
+                            class="background-lightgray moves text-align-center px-1 py-05 mb-1 me-1 border-radius-6p"></span>
                         <span id="move1"
-                            class="background-lightgray moves text-align-center px-1 py-05 m-1 border-radius-6p"></span>
+                            class="background-lightgray moves text-align-center px-1 py-05 mb-1 ms-1 border-radius-6p"></span>
                         <span id="move2"
-                            class="background-lightgray moves text-align-center px-1 py-05 m-1 border-radius-6p"></span>
+                            class="background-lightgray moves text-align-center px-1 py-05 mt-1 me-1 border-radius-6p"></span>
                         <span id="move3"
-                            class="background-lightgray moves text-align-center px-1 py-05 m-1 border-radius-6p"></span>
+                            class="background-lightgray moves text-align-center px-1 py-05 mt-1 ms-1 border-radius-6p"></span>
                     </div>
-                    <div class="w-85 background-white opacity-75 p-3 mt-n1_5 border-radius-6p z-index-2 shadow-sm">
+                    <div class="w-85 background-white opacity-75 p-3 mt-n1_5 border-radius-6p shadow-sm">
                     </div>
                     <div class="w-80 background-white opacity-50 p-3 mt-n1_5 border-radius-6p shadow-sm"></div>
                 </div>
             </div>
 
-            <div class="properties-container text-align-center mb-1_15">
+            <div class="properties-container text-align-center">
                 <div class="sub-properties py-1">
                     <h5 id="type" class="mb-0"></h5>
                     <span class="font-14px">Type</span>
@@ -95,14 +95,10 @@
             <button onclick="" id="unit-button" class="btn btn-white shadow-sm"></button>
         </div>
     </div>
-    <footer>
-        <!--
-        <a href="https://www.flaticon.com/free-icons/pokemon" title="pokemon icons">Pokemon icons created by Nikita Golubev - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/pokemon" title="pokemon icons">Pokemon icons created by Roundicons Freebies - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/pokemon" title="pokemon icons">Pokemon icons created by Freepik - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/pokemon" title="pokemon icons">Pokemon icons created by Nikita Golubev - Flaticon</a>
-        <a href="https://www.freepik.com/free-vector/background-luxury-gradient-design-template_32409731.htm#query=whie%20grey%20split&position=8&from_view=search&track=ais">Image by AndreaCharlesta</a> on Freepik
-        -->
+    <footer class="padding pt-4">
+        <a href="https://www.flaticon.com/free-icons/pokemon" title="Pokémon icons">
+            Pokémon icons created by Freepik - Flaticon
+        </a>
     </footer>
 
 </body>

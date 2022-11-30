@@ -26,7 +26,7 @@ function renderContent() {
     for (let i = 0; i < pokemons.length; i++) {
         let pokemon = pokemons[i];
         document.getElementById('content').innerHTML += `
-        <div onclick="renderCard(${i})" id="card${i}" class="background-${evaluateType(pokemon)} content-card background-lightgray px-2 py-3 m-2 shadow-sm">
+        <div onclick="renderCard(${i})" id="card${i}" class="background-${evaluateType(pokemon)} content-card background-lightgray px-2 py-3 m-cards shadow-sm">
             <div class="text-align-center">
                 <h5 id="content-name${i}" class="mb-n0_15">${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}</h5>
                 <span id="content-id${i}">#${pokemon['id']}</span>
@@ -278,7 +278,7 @@ function convertToAmerican(pokemon) {
         let pokemon = pokemons[i];
         if (pokemon['name'].includes(search) || pokemon['id'].toString().includes(search)) {
             document.getElementById('content').innerHTML += `
-                <div onclick="renderCard()" id="card${i}" class="content-card px-2 py-3 m-2">
+                <div onclick="renderCard()" id="card${i}" class="content-card px-2 py-3 m-2 m-8px">
             <div class="text-align-center">
                 <h5 id="content-name${i}" class="mb-n0_15">${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}</h5>
                 <span id="content-id${i}">#${pokemon['id']}</span>
