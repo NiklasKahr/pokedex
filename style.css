@@ -49,6 +49,7 @@ footer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    cursor: default;
     width: 320px;
     height: 56vh;
     border-radius: 10px;
@@ -282,6 +283,7 @@ footer {
     bottom: 0;
     right: 0;
     left: 0;
+    cursor: pointer;
     background-color: rgba(0, 0, 0, 0.6);
 }
 
