@@ -11,7 +11,7 @@ async function init() {
 
 async function fillArray() {
     for (let i = 0; i < 30; i++) { // max of 905
-        url = `https://pokeapi.co/api/v2/pokemon/${i + 1}/`; //152
+        const url = `https://pokeapi.co/api/v2/pokemon/${i + 1}/`; //152
         let response = await fetch(url);
         currentPokemon = await response.json();
 
@@ -24,9 +24,9 @@ function renderContent() {
     document.getElementById('content').innerHTML = '';
 
     for (let i = 0; i < pokemons.length; i++) {
-        let pokemon = pokemons[i];
+        const pokemon = pokemons[i];
         document.getElementById('content').innerHTML += `
-        <div onclick="renderCard(${i})" id="card${i}" class="background-${evaluateType(pokemon)} content-card background-lightgray px-2 py-3 m-cards shadow-sm">
+        <div onclick="renderCard(${i})" id="card${i}" class="content-card background-${evaluateType(pokemon)} px-2 py-3 m-cards shadow-sm">
             <div class="text-align-center">
                 <h5 id="content-name${i}" class="mb-n0_15">${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}</h5>
                 <span id="content-id${i}">#${pokemon['id']}</span>
@@ -39,9 +39,8 @@ function renderContent() {
     }
 }
 
-//if type0 is normal and type1 exists, return type1
 function evaluateType(pokemon) {
-
+    //if type0 is normal and type1 exists, return type1
     if (type0EqualsNormal(pokemon) && has2Types(pokemon)) {
         let type1 = pokemon['types'][1]['type']['name'];
         return type1;
@@ -60,17 +59,23 @@ function renderCard(i) {
     renderMoves(pokemon);
     renderType(pokemon);
     replaceColor(document.getElementById('selected-card'), 'background', pokemon);
-    if (isAmerican) { convertToAmerican(pokemon); } else { convertToInternational(pokemon); }
 
-    document.getElementById("unit-button").onclick = function () { convertUnits(i); };
+
+    if (isAmerican) { convertToAmerican(pokemon); } else { convertToInternational(pokemon); }
+    renderButtons(i, pokemon);
+
     document.body.style.overflowY = "hidden";
-    document.getElementById('content').style.paddingRight = '15px';
+    document.getElementById('content').style.paddingRight = '17px';
 }
 
 
-function replaceColor(element, colorProperty, pokemon) {
-    let currentColor = Array.from(element.classList)[0];
-    element.classList.replace(currentColor, `${colorProperty}-` + evaluateType(pokemon));
+function renderButtons(i, pokemon) {
+    document.getElementById('previous-button').onclick = function () { renderCard(i-1); };
+    document.getElementById('next-button').onclick = function () { renderCard(i+1); };
+
+    let unitButton = document.getElementById('unit-button');
+    unitButton.onclick = function () { convertUnits(i); };
+    replaceColor(unitButton, 'background', pokemon);
 }
 
 
@@ -93,10 +98,16 @@ function renderMoves(pokemon) {
 
 
 function renderMoves1To3(pokemon) {
-    if (moveUndefined(pokemon, 1)) {
-        hideElement('move1');
+    if (moveUndefined(pokemon, 4)) {
+        let move1 = document.getElementById('move1');
+        move1.innerHTML = '';
+
+        currentColor = searchForColorProperty(createArray(move1), 'background');
+        // use of replaceColor() not possible since it expects a pokemon and "lightgray" is not one
+        move1.classList.replace(currentColor, 'background-lightgray');
     } else {
-        let move1Name = pokemon['moves'][1]['move']['name'];
+        // take move at index 4 (instead of 1) as moves are sorted by similartiy of their names
+        let move1Name = pokemon['moves'][4]['move']['name'];
         let move1 = document.getElementById('move1');
 
         move1.innerHTML = move1Name.charAt(0).toUpperCase() + move1Name.slice(1);
@@ -105,10 +116,14 @@ function renderMoves1To3(pokemon) {
         showElement('move1');
     }
 
-    if (moveUndefined(pokemon, 2)) {
-        hideElement('move2');
+    if (moveUndefined(pokemon, 10)) {
+        let move2 = document.getElementById('move2');
+        move2.innerHTML = '';
+
+        currentColor = searchForColorProperty(createArray(move2), 'background');
+        move2.classList.replace(currentColor, 'background-lightgray');
     } else {
-        let move2Name = pokemon['moves'][2]['move']['name'];
+        let move2Name = pokemon['moves'][10]['move']['name'];
         let move2 = document.getElementById('move2');
 
         move2.innerHTML = move2Name.charAt(0).toUpperCase() + move2Name.slice(1);
@@ -117,11 +132,14 @@ function renderMoves1To3(pokemon) {
         showElement('move2');
     }
 
-    if (moveUndefined(pokemon, 3)) {
-        hideElement('move3');
-    } else {
-        let move3Name = pokemon['moves'][3]['move']['name'];
+    if (moveUndefined(pokemon, 15)) {
         let move3 = document.getElementById('move3');
+        move3.innerHTML = '';
+
+        currentColor = searchForColorProperty(createArray(move3), 'background');
+        move3.classList.replace(currentColor, 'background-lightgray');
+    } else {
+        let move3Name = pokemon['moves'][15]['move']['name'];
 
         move3.innerHTML = move3Name.charAt(0).toUpperCase() + move3Name.slice(1);
         replaceColor(move3, 'background-move', pokemon);
@@ -173,7 +191,7 @@ function adjustPropertyElements(action, pokemon) {
     }
 }
 
-
+// show/hide elements
 function showElement(id) {
     document.getElementById(id).classList.remove('d-none');
 }
@@ -192,6 +210,31 @@ function doNotClose(event) {
     event.stopPropagation();
 }
 
+// color functions
+function replaceColor(element, colorProperty, pokemon) {
+    let arrayOfClasses = createArray(element);
+    let currentColor = searchForColorProperty(arrayOfClasses, split(colorProperty));
+    element.classList.replace(currentColor, `${colorProperty}-` + evaluateType(pokemon));
+}
+
+function createArray(element) {
+    return Array.from(element.classList);
+}
+
+function split(colorProperty) {
+    return colorProperty.split('-')[0];
+}
+
+
+function searchForColorProperty(arrayOfClasses, splitColorProperty) {
+    for (let i = 0; i < arrayOfClasses.length; i++) {
+        const currentClass = arrayOfClasses[i];
+
+        if (currentClass.includes(splitColorProperty)) {
+            return currentClass;
+        }
+    }
+}
 
 // conditional
 function type0EqualsNormal(pokemon) {
@@ -247,7 +290,7 @@ function convertToAmerican(pokemon) {
 }
 
 
-//search function
+// search function
 /*
     let input = document.getElementById('search').value;
     search = input.toLowerCase();
@@ -275,7 +318,7 @@ function convertToAmerican(pokemon) {
     }
 
     for (let i = 1; i < 51; i++) {
-        let pokemon = pokemons[i];
+        const pokemon = pokemons[i];
         if (pokemon['name'].includes(search) || pokemon['id'].toString().includes(search)) {
             document.getElementById('content').innerHTML += `
                 <div onclick="renderCard()" id="card${i}" class="content-card px-2 py-3 m-2 m-8px">
