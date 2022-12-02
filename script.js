@@ -60,7 +60,6 @@ function renderCard(i) {
     renderType(pokemon);
     replaceColor(document.getElementById('selected-card'), 'background', pokemon);
 
-
     if (isAmerican) { convertToAmerican(pokemon); } else { convertToInternational(pokemon); }
     renderButtons(i, pokemon);
 
@@ -112,8 +111,6 @@ function renderMoves1To3(pokemon) {
 
         move1.innerHTML = move1Name.charAt(0).toUpperCase() + move1Name.slice(1);
         replaceColor(move1, 'background-move', pokemon);
-
-        showElement('move1');
     }
 
     if (moveUndefined(pokemon, 10)) {
@@ -128,8 +125,6 @@ function renderMoves1To3(pokemon) {
 
         move2.innerHTML = move2Name.charAt(0).toUpperCase() + move2Name.slice(1);
         replaceColor(move2, 'background-move', pokemon);
-
-        showElement('move2');
     }
 
     if (moveUndefined(pokemon, 15)) {
@@ -143,8 +138,6 @@ function renderMoves1To3(pokemon) {
 
         move3.innerHTML = move3Name.charAt(0).toUpperCase() + move3Name.slice(1);
         replaceColor(move3, 'background-move', pokemon);
-
-        showElement('move3');
     }
 }
 
