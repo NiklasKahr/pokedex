@@ -64,7 +64,7 @@ function renderCard(i) {
     renderButtons(i, pokemon);
 
     document.body.style.overflowY = "hidden";
-    document.getElementById('content').style.paddingRight = '17px';
+    document.body.style.paddingRight = '18px';
 }
 
 
@@ -194,7 +194,7 @@ function hideElement(id) {
     document.getElementById(id).classList.add('d-none');
     if (id == 'container-black') {
         document.body.style.overflowY = "unset";
-        document.getElementById('content').style.paddingRight = 'unset';
+        document.body.style.paddingRight = 'unset';
     }
 }
 

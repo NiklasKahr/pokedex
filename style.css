@@ -4,7 +4,7 @@ body {
     background-image: url(./img/background.jpg);
     background-size: cover;
     background-attachment: fixed;
-    background-color: black !important;
+    background-color: white !important;
     color: white !important;
 }
 
@@ -195,7 +195,7 @@ footer {
     font-weight: 500;
     font-size: 16px;
     transition: 250ms;
-    color: #f04141;
+    color: black;
     background-color: white;
     border: solid #000000 0px;
     box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
@@ -331,7 +331,6 @@ footer {
     bottom: 0;
     right: 0;
     left: 0;
-    cursor: pointer;
     background-color: rgba(0, 0, 0, 0.6);
 }
 
@@ -390,7 +389,6 @@ footer {
     align-items: center;
     width: 90%;
     height: 27%;
-    /*height: ;*/
 }
 
 .sub-properties {
@@ -498,4 +496,26 @@ footer {
     }
 }
 
-/*hidden    overflow: hidden;  filter: blur(4px);   padding-right: 15px; }*/
+/* scrollbar */
+/* Firefox */
+* {
+    scrollbar-width: auto;
+    scrollbar-color: #d3d3d3 #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 18px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #ffffff;
+    margin-top: calc(7.5vh - 1px);
+    border-top: 1px solid rgb(219, 219, 219);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #d3d3d3;
+    border-radius: 10px;
+    border: 5px solid #ffffff;
+}
