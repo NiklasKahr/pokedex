@@ -39,8 +39,8 @@ footer {
 
 #content {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     flex-wrap: wrap;
     min-height: 68vh;
 }
@@ -53,7 +53,7 @@ footer {
     cursor: default;
     width: 320px;
     height: 525px;
-    border-radius: 10px;
+    border-radius: 8px;
     /*420x280, 320x525*/
 }
 
@@ -159,7 +159,7 @@ footer {
     width: calc(16.66% - 16px);
     min-width: 165px;
     min-height: 225px;
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 .m-cards {
@@ -364,7 +364,7 @@ footer {
     height: 28px;
 }
 
-.border-radius-6p {
+.border-radius-6px {
     border-radius: 6px;
 }
 
@@ -496,6 +496,12 @@ footer {
     }
 }
 
+@media(max-width: 355px) {
+#content {
+    justify-content: center;
+}
+}
+
 /* scrollbar */
 /* Firefox */
 * {
@@ -516,6 +522,6 @@ footer {
 
 *::-webkit-scrollbar-thumb {
     background-color: #d3d3d3;
-    border-radius: 10px;
+    border-radius: 8px;
     border: 5px solid #ffffff;
 }
