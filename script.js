@@ -64,7 +64,7 @@ function renderCard(i) {
     renderButtons(i, pokemon);
 
     document.body.style.overflowY = "hidden";
-    document.body.style.paddingRight = '18px';
+    document.body.style.paddingRight = '12px';
 }
 
 
