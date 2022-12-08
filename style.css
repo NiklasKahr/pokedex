@@ -1,11 +1,11 @@
 body {
     font-family: Rubik !important;
     letter-spacing: -1px;
+    color: white !important;
     background-image: url(./img/background.jpg);
     background-size: cover;
     /*background-attachment: fixed;*/
     background-color: white !important;
-    color: white !important;
     overflow-x: hidden;
 }
 
@@ -36,8 +36,6 @@ footer {
     width: calc(100% + 12px);
     height: 24.5vh;
     background-color: black;
-    z-index: 1;
-
 }
 
 #content {
@@ -45,7 +43,7 @@ footer {
     justify-content: flex-start;
     align-items: flex-start;
     flex-wrap: wrap;
-    min-height: 68vh;
+    /*7.5vh header, 24.5vh footer*/
 }
 
 #selected-card {
@@ -53,11 +51,11 @@ footer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
     cursor: default;
     width: 320px;
     height: 525px;
     border-radius: 8px;
-    /*420x280, 320x525*/
 }
 
 #weight-container,
@@ -71,8 +69,6 @@ footer {
     width: 192px;
     height: 192px;
     margin-bottom: -1.25rem;
-    /* outsource */
-    /*transform: scaleX(-1);*/
 }
 
 #type,
@@ -81,8 +77,12 @@ footer {
     line-height: 1.1;
 }
 
-#unit-button {
+#unit-btn {
     margin-bottom: -2.6rem;
+}
+
+.content-container {
+    min-height: calc(100vh - 7.5vh - 24.5vh);
 }
 
 .logo-container {
@@ -158,10 +158,11 @@ footer {
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
+    transition: 250ms;
     /*16px margin*/
     width: calc(16.66% - 16px);
     min-width: 165px;
-    min-height: 225px;
+    height: 225px;
     border-radius: 8px;
 }
 
@@ -189,8 +190,8 @@ footer {
     width: 100%;
 }
 
-#previous-button,
-#next-button {
+#previous-btn,
+#next-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -204,33 +205,37 @@ footer {
     box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
 }
 
-#previous-button:hover,
-#next-button:hover {
+#previous-btn:hover,
+#next-btn:hover {
     transition: 250ms;
     background-color: #ececec;
 }
 
-#previous-button:active,
-#next-button:active {
+#previous-btn:active,
+#next-btn:active {
     background-color: #d3d3d3;
 }
 
-#previous-button {
+#previous-btn {
     padding: 0 12px 0 20px;
     margin-left: -0.5rem;
     border-radius: 0 22px 22px 0;
     transform: translateY(0);
 }
 
-#next-button {
+#next-btn {
     padding: 0 20px 0 12px;
     border-radius: 22px 0 0 22px;
     margin-right: -0.5rem;
     transform: translateY(0);
 }
 
-.d-none {
-    display: none;
+.filter {
+    filter: unset;
+}
+
+.filter:hover {
+    filter: brightness(104%);
 }
 
 .display-flex {
@@ -285,6 +290,10 @@ footer {
     margin-left: 0.05rem !important;
 }
 
+.me-0_5 {
+    margin-right: 0.5rem;
+}
+
 .mb-05 {
     margin-bottom: 0.125rem;
 }
@@ -325,7 +334,7 @@ footer {
     color: black;
 }
 
-.container-black {
+#container-black {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -343,6 +352,15 @@ footer {
 
 .background-lightgray {
     background: lightgray;
+}
+
+.cross {
+    position: absolute;
+    top: 4.25%;
+    right: 4.75%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
 }
 
 .name-id-container {

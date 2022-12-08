@@ -22,36 +22,38 @@
 </head>
 
 <body onload="init()">
-    <header class="header padding">
+    <header class="header z-index-1 padding">
         <div class="logo-container">
             <a title="pokemon.com" href="https://www.pokemon.com" target="_blank">
                 <img class="logo logo-animation" src="./img/favicon.png" alt="Pokéball">
             </a>
-            <span class="color-black ms-3 disappear-animation">Stay up to date!</span>
+            <span class="color-black ms-2 me-0_5 disappear-animation">Stay up-to-date!</span>
         </div>
 
         <div class="search-bar-container">
-            <img class="magnifying-glass" src="img/magnifying-glass.png" alt="Lupe">
+            <img class="magnifying-glass" src="img/magnifying-glass.png" alt="Magnifying glass">
             <input class="search-bar" id="search" onkeyup="searchCards()" placeholder="Search">
         </div>
     </header>
 
-    <div id="content" class="margin">
-
+    <div class="content-container">
+        <div id="content" class="margin"></div>
+        <button class="load-more-btn">Load more</button>
     </div>
 
-    <div onclick="hideElement('container-black')" id="container-black" class="container-black d-none">
+    <div onclick="hideElement('container-black')" id="container-black" class="z-index-1 d-none">
         <div onclick="doNotClose(event)" id="selected-card"
             class="background-lightgray px-2 py-3 mx-2 z-index-1 shadow">
+            <img onclick="hideElement('container-black')" class="cross" src="./img/cross.svg" alt="Cross">
             <div class="name-id-container text-align-center">
                 <h5 id="name" class="mb-0"></h5>
                 <span id="id" class="font-14px"></span>
             </div>
             <div class="sub-selected-card">
                 <div class="sprite-container z-index-2">
-                    <button onclick="" id="previous-button">&lt;&lt;</button>
+                    <button onclick="" id="previous-btn">&lt;&lt;</button>
                     <img id="sprite" class="mb-n2_3">
-                    <button onlick="" id="next-button">&gt;&gt;</button>
+                    <button onlick="" id="next-btn">&gt;&gt;</button>
                 </div>
                 <div class="moves-container">
                     <div class="sub-moves w-90 background-white p-2 border-radius-6px z-index-1 shadow-sm">
@@ -96,11 +98,11 @@
                     <span class="font-14px">Height</span>
                 </div>
             </div>
-            <button onclick="" id="unit-button" class="btn btn-white shadow-sm"></button>
+            <button onclick="" id="unit-btn" class="btn btn-white shadow-sm"></button>
         </div>
     </div>
 
-    <footer class="padding pt-4">
+    <footer class="z-index-1 padding pt-4">
         <a href="https://www.flaticon.com/free-icons/pokemon" title="Pokémon icons" target="_blank">
             Pokémon icons created by Freepik on Flaticon
         </a>

@@ -26,7 +26,7 @@ function renderContent() {
     for (let i = 0; i < pokemons.length; i++) {
         const pokemon = pokemons[i];
         document.getElementById('content').innerHTML += `
-        <div onclick="renderCard(${i})" id="card${i}" class="content-card background-${evaluateType(pokemon)} px-2 py-3 m-cards shadow-sm">
+        <div onclick="renderCard(${i})" id="card${i}" class="content-card background-${evaluateType(pokemon)} filter px-2 py-3 m-cards shadow-sm">
             <div class="text-align-center">
                 <h5 id="content-name${i}" class="mb-n0_15">${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}</h5>
                 <span id="content-id${i}">#${pokemon['id']}</span>
@@ -69,10 +69,10 @@ function renderCard(i) {
 
 
 function renderButtons(i, pokemon) {
-    document.getElementById('previous-button').onclick = function () { renderCard(i - 1); };
-    document.getElementById('next-button').onclick = function () { renderCard(i + 1); };
+    document.getElementById('previous-btn').onclick = function () { renderCard(i - 1); };
+    document.getElementById('next-btn').onclick = function () { renderCard(i + 1); };
 
-    let unitButton = document.getElementById('unit-button');
+    let unitButton = document.getElementById('unit-btn');
     unitButton.onclick = function () { convertUnits(i); };
     replaceColor(unitButton, 'background', pokemon);
 }
@@ -320,7 +320,7 @@ function convertToInternational(pokemon) {
     document.getElementById('height').innerHTML = (pokemon['height'] / 10).toFixed(2).replace('.', ',');
     document.getElementById('m-ft').innerHTML = 'm';
 
-    document.getElementById('unit-button').innerHTML = 'lb/ft';
+    document.getElementById('unit-btn').innerHTML = 'lb/ft';
 }
 
 
@@ -334,7 +334,7 @@ function convertToAmerican(pokemon) {
     height.innerHTML = ((pokemon['height'] / 10) * 3.281).toFixed(2);
     document.getElementById('m-ft').innerHTML = 'ft';
 
-    document.getElementById('unit-button').innerHTML = 'kg/m';
+    document.getElementById('unit-btn').innerHTML = 'kg/m';
 }
 
 
