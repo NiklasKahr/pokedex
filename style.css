@@ -29,7 +29,6 @@ header {
     width: calc(100% + 12px);
     height: 7.5vh;
     background-color: white;
-    border-bottom: 1px solid rgb(219, 219, 219);
 }
 
 footer {
@@ -267,9 +266,9 @@ footer {
 }
 
 .padding {
-    /*12px scroll bar width, 8px margin contend-card*/
+    /*14px scroll bar width, 8px margin content-card*/
     padding-left: calc(14.5% + 8px);
-    padding-right: calc(14.5% + 12px + 8px);
+    padding-right: calc(14.5% + 14px + 8px);
 }
 
 .p-05 {
@@ -429,6 +428,10 @@ footer {
     margin-top: 7%;
 }
 
+.unit-alignment-mobile {
+    margin-top: 6%;
+}
+
 .border-left-white {
     height: 45%;
     border-left: 2px solid white;
@@ -465,6 +468,10 @@ footer {
 }
 
 @media(max-width: 785px) {
+    header {
+        margin-bottom: 0.25rem;
+    }
+
     .content-card {
         width: calc(50% - 8px);
         min-width: 150px;
@@ -481,9 +488,9 @@ footer {
     }
 
     .padding {
-        /*12px scroll bar width, 4px margin contend-card*/
+        /*14px scroll bar width, 4px margin contend-card*/
         padding-left: calc(3% + 4px);
-        padding-right: calc(3% + 12px + 4px);
+        padding-right: calc(3% + 14px + 4px);
     }
 
     .margin {
@@ -495,6 +502,7 @@ footer {
 @media(max-width: 465px) {
     #selected-card {
         width: 275px;
+        height: 440px;
     }
 
     #sprite {
@@ -502,8 +510,21 @@ footer {
         height: 148px;
     }
 
+    .moves {
+        font-size: 0.95rem !important;
+    }
+
+    #type, #weight, #height {
+        font-size: 20px !important;
+    }
+
     .content-card {
         min-height: unset;
+    }
+
+    .border-left-white,
+    .border-right-white {
+        height: 58%;
     }
 }
 
@@ -527,22 +548,20 @@ footer {
 /* Firefox */
 * {
     scrollbar-width: auto;
-    scrollbar-color: #d32020 #ffffff;
+    scrollbar-color: #E23164 #F7F7F7;
 }
 
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-    width: 12px;
+    width: 14px;
 }
 
 *::-webkit-scrollbar-track {
-    background: #fafafa;
-    /*margin-top: calc(7.5vh - 1px);
-    border-top: 1px solid rgb(219, 219, 219);*/
+    background: #F7F7F7;
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: #d2d2d2;
+    background-color: #E23164;
     border-radius: 8px;
-    /*border: 5px solid #ffffff;*/
+    border: 3px solid #F7F7F7;
 }

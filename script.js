@@ -64,13 +64,22 @@ function renderCard(i) {
     renderButtons(i, pokemon);
 
     document.body.style.overflowY = "hidden";
-    document.body.style.paddingRight = '12px';
+    document.body.style.paddingRight = '14px'; //scroll bar width
 }
 
 
 function renderButtons(i, pokemon) {
-    document.getElementById('previous-btn').onclick = function () { renderCard(i - 1); };
-    document.getElementById('next-btn').onclick = function () { renderCard(i + 1); };
+    document.getElementById('previous-btn').onclick = function () {
+        if (pokemon != pokemons[0]) {
+            renderCard(i - 1);
+        }
+    };
+
+    document.getElementById('next-btn').onclick = function () {
+        if (pokemon != pokemon[905] && pokemons[i+1] !== undefined) {
+            renderCard(i + 1);
+        }
+    };
 
     let unitButton = document.getElementById('unit-btn');
     unitButton.onclick = function () { convertUnits(i); };
@@ -226,7 +235,7 @@ function searchCards() {
     search = input.toLowerCase();
     let content = document.getElementById('allPokemon');
     content.innerHTML = '';
-
+ 
     for (let i = 0; i < pokemons.length; i++) {
         const pokemonName = allPokemon[i]['name'];
         if (pokemonName.startsWith(search)) {
@@ -284,7 +293,7 @@ function searchForColorProperty(arrayOfClasses, splitColorProperty) {
     }
 }
 
-// conditional
+// conditionals
 function type0EqualsNormal(pokemon) {
     return pokemon['types'][0]['type']['name'] == 'normal';
 }
