@@ -199,15 +199,8 @@ function searchCards() {
     let search = document.getElementById('search').value.toLowerCase();
     console.log(search);
 
-    /*content.style.minHeight = 'unset';
-    document.querySelector('footer').style.position = 'relative';
-    document.querySelector('footer').style.bottom = '0';*/
-
     if (search == '') {
         renderContent();
-        /*content.style.minHeight = '68vh';
-        document.querySelector('footer').style.position = 'unset';
-        document.querySelector('footer').style.bottom = 'unset';*/
     }
 
     content.innerHTML = '';

@@ -249,16 +249,16 @@ footer {
     font-size: 14px;
 }
 
+.w-95 {
+    width: 95%;
+}
+
 .w-90 {
     width: 90%;
 }
 
 .w-85 {
     width: 85%;
-}
-
-.w-80 {
-    width: 80%;
 }
 
 .h-32p {
