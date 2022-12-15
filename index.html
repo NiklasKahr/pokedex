@@ -8,10 +8,11 @@
     <title>Pokédex</title>
     <link rel="shortcut icon" href="./img/favicon.png">
 
-    <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet" href="./fonts.css">
-    <link rel="stylesheet" href="./type_colors.css">
+    <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="stylesheet" href="./CSS/fonts.css">
+    <link rel="stylesheet" href="./CSS/type_colors.css">
     <script src="script.js"></script>
+
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link href="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.css">
 </head>
@@ -22,7 +23,7 @@
             <a title="pokemon.com" href="https://www.pokemon.com" target="_blank">
                 <img class="logo logo-animation" src="./img/favicon.png" alt="Pokéball">
             </a>
-            <span class="color-black ms-2 me-0_5 disappear-animation">Stay up-to-date!</span>
+            <span class="color-black ms-2 me-0_5 disappear-animation">Stay up to date!</span>
         </div>
 
         <div class="search-bar-container">
@@ -33,9 +34,12 @@
 
     <div class="content-container">
         <div id="content" class="margin"></div>
-        <button class="load-more-btn">Load more</button>
     </div>
 
+    <div class="load-btn-container">
+        <button onclick="init()" id="load-button" class="btn">Load more</button>
+    </div>
+    <!--Card large view-->
     <div onclick="hideElement('container-black')" id="container-black" class="z-index-1 d-none">
         <div onclick="doNotClose(event)" id="selected-card"
             class="background-lightgray px-2 py-3 mx-2 z-index-1 shadow">
@@ -44,11 +48,12 @@
                 <h5 id="name" class="mb-0"></h5>
                 <span id="id" class="font-14px"></span>
             </div>
+
             <div class="sub-selected-card">
                 <div class="sprite-container z-index-2">
-                    <button onclick="" id="previous-btn">&lt;&lt;</button>
+                    <button onclick="" id="previous-btn" class="background-white filter">&lt;&lt;</button>
                     <img id="sprite" class="mb-n2_3">
-                    <button onlick="" id="next-btn">&gt;&gt;</button>
+                    <button onlick="" id="next-btn" class="background-white filter">&gt;&gt;</button>
                 </div>
                 <div class="moves-container">
                     <div class="sub-moves w-95 background-white p-2 border-radius-6px z-index-1 shadow-sm">
@@ -92,7 +97,7 @@
                     <span class="font-14px">Height</span>
                 </div>
             </div>
-            <button onclick="" id="unit-btn" class="btn btn-white shadow-sm"></button>
+            <button onclick="" id="unit-btn" class="btn btn-white shadow-sm color-black background-white"></button>
         </div>
     </div>
 

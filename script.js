@@ -1,6 +1,8 @@
 let pokemons = [];
 let currentPokemon;
 let isAmerican;
+let amountOfPokemon = 0;
+let offset;
 
 
 async function init() {
@@ -10,7 +12,9 @@ async function init() {
 
 
 async function fillArray() {
-    for (let i = 0; i < 30; i++) { // max of 905
+    offset = amountOfPokemon;
+    amountOfPokemon += 30;
+    for (let i = offset; i < amountOfPokemon; i++) { // max of 905
         const url = `https://pokeapi.co/api/v2/pokemon/${i + 1}/`; //152
         let response = await fetch(url);
         currentPokemon = await response.json();
@@ -19,11 +23,10 @@ async function fillArray() {
     }
 }
 
+
 // render functions
 function renderContent() {
-    document.getElementById('content').innerHTML = '';
-
-    for (let i = 0; i < pokemons.length; i++) {
+    for (let i = offset; i < pokemons.length; i++) {
         const pokemon = pokemons[i];
         document.getElementById('content').innerHTML += `
         <div onclick="renderCard(${i})" id="card${i}" class="content-card background-${evaluateType(pokemon)} filter px-2 py-3 m-cards shadow-sm">
@@ -35,9 +38,9 @@ function renderContent() {
             alt="${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}">
         </div>
         `;
-        console.log('#' + pokemon['id'], pokemon);
     }
 }
+
 
 function evaluateType(pokemon) {
     //if type0 is normal and type1 exists, return type1
@@ -69,21 +72,26 @@ function renderCard(i) {
 
 
 function renderButtons(i, pokemon) {
-    document.getElementById('previous-btn').onclick = function () {
+    let previousButton = document.getElementById('previous-btn');
+    let nextButton = document.getElementById('next-btn');
+    let unitButton = document.getElementById('unit-btn');
+
+    previousButton.onclick = function () {
         if (pokemon != pokemons[0]) {
             renderCard(i - 1);
         }
     };
+    replaceColor(previousButton, 'background-move', pokemon);
 
-    document.getElementById('next-btn').onclick = function () {
-        if (pokemon != pokemon[905] && pokemons[i+1] !== undefined) {
+    nextButton.onclick = function () {
+        if (pokemon != pokemon[905] && pokemons[i + 1] !== undefined) {
             renderCard(i + 1);
         }
     };
+    replaceColor(nextButton, 'background-move', pokemon);
 
-    let unitButton = document.getElementById('unit-btn');
     unitButton.onclick = function () { convertUnits(i); };
-    replaceColor(unitButton, 'background', pokemon);
+    replaceColor(unitButton, 'color', pokemon);
 }
 
 
@@ -110,7 +118,7 @@ function renderMoves1To3(pokemon) {
         let move1 = document.getElementById('move1');
         move1.innerHTML = '';
 
-        currentColor = searchForColorProperty(createArray(move1), 'background');
+        currentColor = searchForColorProperty(createArrayOfClass(move1), 'background');
         // use of replaceColor() not possible since it expects a pokemon and "lightgray" is not one
         move1.classList.replace(currentColor, 'background-lightgray');
     } else {
@@ -126,7 +134,7 @@ function renderMoves1To3(pokemon) {
         let move2 = document.getElementById('move2');
         move2.innerHTML = '';
 
-        currentColor = searchForColorProperty(createArray(move2), 'background');
+        currentColor = searchForColorProperty(createArrayOfClass(move2), 'background');
         move2.classList.replace(currentColor, 'background-lightgray');
     } else {
         let move2Name = pokemon['moves'][10]['move']['name'];
@@ -140,7 +148,7 @@ function renderMoves1To3(pokemon) {
         let move3 = document.getElementById('move3');
         move3.innerHTML = '';
 
-        currentColor = searchForColorProperty(createArray(move3), 'background');
+        currentColor = searchForColorProperty(createArrayOfClass(move3), 'background');
         move3.classList.replace(currentColor, 'background-lightgray');
     } else {
         let move3Name = pokemon['moves'][15]['move']['name'];
@@ -188,16 +196,27 @@ function adjustPropertyElements(action, pokemon) {
     } else {
         document.getElementById('weight-container').style.alignItems = 'flex-end';
         document.getElementById('height-container').style.alignItems = 'flex-end';
-        document.getElementById('kg-lb').style.lineHeight = 1.2;
-        document.getElementById('m-ft').style.lineHeight = 1.2;
+        document.getElementById('kg-lb').style.lineHeight = 'unset';
+        document.getElementById('m-ft').style.lineHeight = 'unset';
+    }
+    adjustPropertyElementsMobile();
+}
+
+
+function adjustPropertyElementsMobile() {
+    if (has2Types(extractPokemon()) && window.innerWidth <= 465) {
+        document.getElementById('kg-lb').style.lineHeight = 'unset';
+        document.getElementById('m-ft').style.lineHeight = 'unset';
+    } else if (window.innerWidth <= 465) {
+        document.getElementById('kg-lb').style.lineHeight = '1.2';
+        document.getElementById('m-ft').style.lineHeight = '1.2';
     }
 }
 
 
 function searchCards() {
     let content = document.getElementById('content');
-    let search = document.getElementById('search').value.toLowerCase();
-    console.log(search);
+    let search = document.getElementById('search').value.toLowerCase().replace(/ +/g, "");
 
     if (search == '') {
         renderContent();
@@ -208,38 +227,20 @@ function searchCards() {
         const pokemon = pokemons[i];
         if (pokemon['name'].includes(search) || pokemon['id'].toString().includes(search)) {
             content.innerHTML += `
-            <div onclick="renderCard(${i})" id="card${i}" class="content-card background-${evaluateType(pokemon)} px-2 py-3 m-cards shadow-sm">
-            <div class="text-align-center">
-                <h5 id="content-name${i}" class="mb-n0_15">${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}</h5>
-                <span id="content-id${i}">#${pokemon['id']}</span>
+            <div onclick="renderCard(${i})" id="card${i}" class="content-card background-${evaluateType(pokemon)} filter px-2 py-3 m-cards shadow-sm">
+                <div class="text-align-center">
+                    <h5 id="content-name${i}" class="mb-n0_15">${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}</h5>
+                    <span id="content-id${i}">#${pokemon['id']}</span>
+                </div>
+                <img id="content-sprite${i}" class="content-sprite" src="${pokemon['sprites']['other']['official-artwork']['front_default']}" 
+                lt="${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}">
             </div>
-            <img id="content-sprite${i}" class="content-sprite" src="${pokemon['sprites']['other']['official-artwork']['front_default']}" 
-            alt="${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}">
-        </div>
             `;
         }
     }
 }
 
-
-// search function
-/*
-    let input = document.getElementById('search').value;
-    search = input.toLowerCase();
-    let content = document.getElementById('allPokemon');
-    content.innerHTML = '';
- 
-    for (let i = 0; i < pokemons.length; i++) {
-        const pokemonName = allPokemon[i]['name'];
-        if (pokemonName.startsWith(search)) {
-            currentPokemon = allPokemon[i];
-            renderSmallPokemonCard(i);
-        }
-    }
-}*/
-
-
-// show/hide elements
+//show/hide functions
 function showElement(id) {
     document.getElementById(id).classList.remove('d-none');
 }
@@ -260,13 +261,13 @@ function doNotClose(event) {
 
 // color functions
 function replaceColor(element, colorProperty, pokemon) {
-    let arrayOfClasses = createArray(element);
+    let arrayOfClasses = createArrayOfClass(element);
     let currentColor = searchForColorProperty(arrayOfClasses, split(colorProperty));
     element.classList.replace(currentColor, `${colorProperty}-` + evaluateType(pokemon));
 }
 
 
-function createArray(element) {
+function createArrayOfClass(element) {
     return Array.from(element.classList);
 }
 
@@ -286,7 +287,7 @@ function searchForColorProperty(arrayOfClasses, splitColorProperty) {
     }
 }
 
-// conditionals
+//conditionals
 function type0EqualsNormal(pokemon) {
     return pokemon['types'][0]['type']['name'] == 'normal';
 }
@@ -301,7 +302,18 @@ function moveUndefined(pokemon, moveNumber) {
     return pokemon['moves'][moveNumber] == undefined;
 }
 
-// convert
+
+function cardIsVisible() {
+    return !document.getElementById('container-black').classList.contains('d-none');
+}
+
+//parameter function
+function extractPokemon() {
+    let i = document.getElementById('id').textContent.replace('#', '') - 1;
+    return pokemons[i];
+}
+
+//convert
 function convertUnits(i) {
     let pokemon = pokemons[i]
 
@@ -338,8 +350,3 @@ function convertToAmerican(pokemon) {
 
     document.getElementById('unit-btn').innerHTML = 'kg/m';
 }
-
-
-/*mobile devices
-$('body').bind('touchmove', function(e){e.preventDefault()})
-$('body').unbind('touchmove')*/
