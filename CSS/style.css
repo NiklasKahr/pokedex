@@ -6,7 +6,7 @@ body {
     background-size: cover;
     background-attachment: fixed;
     background-color: white !important;
-    overflow-x: hidden;
+    overflow-y: overlay;
 }
 
 a {
@@ -26,21 +26,23 @@ header {
     align-items: center;
     position: sticky;
     top: 0;
-    width: calc(100% + 12px);
+    width: 100%;
     height: 7.5vh;
+    min-height: 60px;
+    max-height: 80px;
     background-color: white;
+    margin-bottom: 0.5rem;
 }
 
 footer {
-    width: calc(100% + 12px);
+    width: 100%;
     height: 24.5vh;
     background-color: black;
 }
 
 #content {
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     flex-wrap: wrap;
 }
 
@@ -73,21 +75,24 @@ footer {
     margin-bottom: -2.6rem;
 }
 
-#load-button {
+.load-btn {
     width: 14%;
+    min-width: 110px;
+    border-radius: 16px !important;
+    color: white;
     /**8px content-card margin*/
     margin-top: calc(3rem - 8px);
     margin-bottom: 3rem;
-    transition: 250ms !important;
-    border-radius: 16px !important;
-    color: white;
-    background-color: #E23164;
-    --bs-btn-border-width: unset !important;
-}
 
-#load-button:hover {
-    transition: 250ms;
-    background-color: #F2356D;
+    --bs-btn-color: white !important;
+    --bs-btn-bg: #E23164 !important;
+    --bs-btn-hover-color: black;
+    --bs-btn-hover-bg: #ececec;
+    --bs-btn-focus-shadow-rgb: 211, 212, 213;
+    --bs-btn-active-color: black;
+    --bs-btn-active-bg: #e0e0e0;
+    --bs-btn-active-shadow: unset;
+    --bs-btn-border-width: unset !important;
 }
 
 .load-btn-container {
@@ -95,9 +100,11 @@ footer {
     justify-content: center;
     align-items: center;
     width: 100%;
+    margin-top: 0.25rem;
 }
 
 .content-container {
+    /*7.5vh header height, 24.5vh footer height*/
     min-height: calc(100vh - 7.5vh - 24.5vh);
 }
 
@@ -178,7 +185,7 @@ footer {
     /*16px margin*/
     width: calc(16.66% - 16px);
     min-width: 165px;
-    height: 225px;
+    min-height: 225px;
     border-radius: 8px;
 }
 
@@ -211,9 +218,10 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 20%;
+    height: 34px;
     font-weight: 500;
     font-size: 16px;
+    filter: unset;
     transition: 250ms;
     color: white;
     border: solid #000000 0px;
@@ -222,13 +230,13 @@ footer {
 
 #previous-btn:hover,
 #next-btn:hover {
-    transition: 250ms;
-    background-color: #ececec !important;
+    transition: 200ms;
+    filter: brightness(95%);
 }
 
 #previous-btn:active,
 #next-btn:active {
-    background-color: #d3d3d3;
+    filter: brightness(91%);
 }
 
 #previous-btn {
@@ -284,9 +292,9 @@ footer {
 }
 
 .padding {
-    /*14px scroll bar width, 8px content-card margin*/
+    /*8px content-card margin*/
     padding-left: calc(14.5% + 8px);
-    padding-right: calc(14.5% + 14px + 8px);
+    padding-right: calc(14.5% + 8px);
 }
 
 .p-05 {
@@ -311,20 +319,12 @@ footer {
     margin-right: 0.5rem;
 }
 
-.mb-05 {
-    margin-bottom: 0.125rem;
-}
-
 .mb-1_15 {
     margin-bottom: 1.15rem;
 }
 
 .mb-2_75 {
     margin-bottom: 2.75rem;
-}
-
-.mb-n0_15 {
-    margin-bottom: -0.15rem;
 }
 
 .mb-n2_3 {
@@ -400,6 +400,7 @@ footer {
 .moves {
     width: calc(50% - 4px);
     height: 28px;
+    transition: 250ms !important;
 }
 
 .border-radius-6px {
@@ -416,7 +417,7 @@ footer {
     --bs-btn-hover-bg: #ececec;
     --bs-btn-focus-shadow-rgb: 211, 212, 213;
     --bs-btn-active-color: black;
-    --bs-btn-active-bg: #d3d3d3;
+    --bs-btn-active-bg: #e0e0e0;
     --bs-btn-active-shadow: unset;
     --bs-btn-border-width: unset !important;
 }
@@ -462,6 +463,28 @@ footer {
     border-radius: 6px;
 }
 
+/* scroll bar */
+/* Firefox */
+* {
+    scrollbar-width: auto;
+    scrollbar-color: #E23164 #F7F7F7;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 14px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #F7F7F7;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #E23164;
+    border-radius: 8px;
+    border: 3px solid #F7F7F7;
+}
+
 @media(max-width: 1550px) {
     .content-card {
         /*16px margin*/
@@ -475,6 +498,8 @@ footer {
     }
 }
 
+@media(max-width: 1280px) {}
+
 @media(max-width: 1040px) {
     .search-bar-container {
         width: 50%;
@@ -486,6 +511,12 @@ footer {
 }
 
 @media(max-width: 785px) {
+    .padding {
+        /*4px contend-card margin*/
+        padding-left: calc(14.5% + 4px);
+        padding-right: calc(14.5% + 4px);
+    }
+
     header {
         margin-bottom: 0.25rem;
     }
@@ -504,20 +535,24 @@ footer {
     .m-cards {
         margin: 0.25rem;
     }
+}
+
+@media(max-width: 465px) {
+    body::-webkit-scrollbar {
+        display: none;
+    }
 
     .padding {
-        /*14px scroll bar width, 4px contend-card margin*/
+        /*4px contend-card margin*/
         padding-left: calc(3% + 4px);
-        padding-right: calc(3% + 14px + 4px);
+        padding-right: calc(3% + 4px);
     }
 
     .margin {
         margin-left: 3%;
         margin-right: 3%;
     }
-}
 
-@media(max-width: 465px) {
     #selected-card {
         width: 275px;
         height: 440px;
@@ -532,6 +567,11 @@ footer {
     #weight,
     #height {
         font-size: 20px !important;
+    }
+
+    #previous-btn,
+    #next-btn {
+        height: 30px;
     }
 
     .moves {
@@ -559,29 +599,34 @@ footer {
 }
 
 @media(max-width: 355px) {
-    #content {
-        justify-content: center;
+    .padding {
+        /*4px contend-card margin*/
+        padding-left: calc(2% + 4px);
+        padding-right: calc(2% + 4px);
+    }
+
+    .margin {
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+
+    .content-card {
+        min-width: 125px;
+        height: unset;
+    }
+
+    .content-name {
+        font-size: 20px !important;
+        margin-bottom: unset;
+    }
+
+    .content-id {
+        font-size: 14px;
     }
 }
 
-/* scrollbar */
-/* Firefox */
-* {
-    scrollbar-width: auto;
-    scrollbar-color: #E23164 #F7F7F7;
-}
-
-/* Chrome, Edge, and Safari */
-*::-webkit-scrollbar {
-    width: 14px;
-}
-
-*::-webkit-scrollbar-track {
-    background: #F7F7F7;
-}
-
-*::-webkit-scrollbar-thumb {
-    background-color: #E23164;
-    border-radius: 8px;
-    border: 3px solid #F7F7F7;
+@media(max-width: 277px) {
+    #content {
+        justify-content: center;
+    }
 }

@@ -5,12 +5,11 @@
 }
 
 .background-grass {
-    background-image: linear-gradient(45deg, #73A9AD, #90C8AC) !important;
-    /*background-color: linear-gradient(to top, #c1dfc4 0%, #deecdd 100%) !important;*/
+    background-image: linear-gradient(45deg, #73A9AD, #8ad1ae) !important;
 }
 
 .background-move-grass {
-    background-color: #73A9AD !important;
+    background-color: #6da597 !important;
 }
 
 .color-poison {
@@ -18,11 +17,12 @@
 }
 
 .background-poison {
-    background-image: linear-gradient(45deg, #7F669D, #BA94D1) !important;
+    background-image: linear-gradient(45deg, #7F669D, #d194c2) !important;
+    /*background-image: linear-gradient(45deg, #7F669D, #d7beec) !important;*/
 }
 
 .background-move-poison {
-    background-color: #7F669D !important;
+    background-color: #7f6d94 !important;
 }
 
 .color-fire {
@@ -30,23 +30,23 @@
 }
 
 .background-fire {
-    background-image: linear-gradient(45deg, #e66d6d, #fdaaaa) !important;
+    background-image: linear-gradient(45deg, #e66d6d, #fcb5a3) !important;
 }
 
 .background-move-fire {
-    background-color: #e66d6d !important;
+    background-color: #dd6b63 !important;
 }
 
 .color-flying {
-    color: #53CDE2 !important;
+    color: #96caff !important;
 }
 
 .background-flying {
-    background-image: linear-gradient(45deg, #53CDE2, #adf0fc) !important;
+    background-image: linear-gradient(45deg, #96caff, #cbd9ff) !important;
 }
 
 .background-move-flying {
-    background-color: #53CDE2 !important;
+    background-color: #94bbdf !important;
 }
 
 .color-water {
@@ -54,11 +54,11 @@
 }
 
 .background-water {
-    background-image: linear-gradient(45deg, #709FB0, #A7C5EB) !important;
+    background-image: linear-gradient(45deg, #709FB0, #bcbfee) !important;
 }
 
 .background-move-water {
-    background-color: #709FB0 !important;
+    background-color: #6d91af !important;
 }
 
 .color-bug {
@@ -66,12 +66,12 @@
 }
 
 .background-bug {
-    background-image: linear-gradient(45deg, #9EB23B, #d2e075) !important;
+    background-image: linear-gradient(45deg, #9EB23B, #d5e095) !important;
 
 }
 
 .background-move-bug {
-    background-color: #9EB23B !important;
+    background-color: #aac12a !important;
 }
 
 .color-normal {
@@ -79,63 +79,63 @@
 }
 
 .background-normal {
-    background-image: linear-gradient(45deg, #afaf67, #dfdfae) !important;
+    background-image: linear-gradient(45deg, #afaf67, #ddddc2) !important;
 }
 
 .background-move-normal {
-    background-color: #afaf67 !important;
+    background-color: #aaaa83 !important;
 }
 
 .color-electric {
-    color: #f4ba1a !important;
+    color: #fdc11d !important;
 }
 
 .background-electric {
-    background-image: linear-gradient(45deg, #f4ba1a, #ffe56f) !important;
+    background-image: linear-gradient(45deg, #fdc11d, #f7e389) !important;
 
 }
 
 .background-move-electric {
-    background-color: #f4ba1a !important;
+    background-color: #fabe3c !important;
 }
 
 .color-ground {
-    color: #CFB997 !important;
+    color: #a67439 !important; /*a67439*/
 }
 
 .background-ground {
-    background-image: linear-gradient(45deg, #CFB997, #FAD6A5) !important;
+    background-image: linear-gradient(45deg, #af883f, #d3c99c) !important;
 
 }
 
 .background-move-ground {
-    background-color: #CFB997 !important;
+    background-color: #a1955e !important; /*a67439*/
 }
 
 .color-fairy {
-    color: #FFA1CF !important;
+    color: #ec8fe6 !important;
 }
 
 .background-fairy {
-    background-image: linear-gradient(45deg, #FFA1CF, #FFCACA) !important;
+    background-image: linear-gradient(45deg, #ec8fe6, #FFCACA) !important;
 
 }
 
 .background-move-fairy {
-    background-color: #FFA1CF !important;
+    background-color: #e68cae !important;
 }
 
 .color-fighting {
-    color: #c74b45 !important;
+    color: #bb5544 !important;
 }
 
 .background-fighting {
-    background-image: linear-gradient(45deg, #c74b45, #d37671) !important;
+    background-image: linear-gradient(45deg, #bb5544, #f38e74) !important;
 
 }
 
 .background-move-fighting {
-    background-color: #c74b45 !important;
+    background-color: #bb5e5a !important;
 }
 
 .color-psychic {
@@ -143,11 +143,11 @@
 }
 
 .background-psychic {
-    background-image: linear-gradient(45deg, #D989B5, #FFADBC) !important;
+    background-image: linear-gradient(45deg, #D989B5, #ffadad) !important;
 }
 
 .background-move-psychic {
-    background-color: #D989B5 !important;
+    background-color: #d184ae !important;
 }
 
 .color-rock {
@@ -155,12 +155,12 @@
 }
 
 .background-rock {
-    background-image: linear-gradient(45deg, #8d918c, #c4c7c2) !important;
+    background-image: linear-gradient(45deg, #8d918c, #cfcfcf) !important;
 
 }
 
 .background-move-rock {
-    background-color: #8d918c !important;
+    background-color: #969696 !important;
 }
 
 .color-steel {
@@ -172,19 +172,19 @@
 }
 
 .background-move-steel {
-    background-color: #a6a6b4 !important;
+    background-color: #9e9eb1 !important;
 }
 
 .color-ice {
-    color: #bbd2f3 !important;
+    color: #74cfc0 !important;
 }
 
 .background-ice {
-    background-image: linear-gradient(45deg, #bbd2f3, #d8ecec) !important;
+    background-image: linear-gradient(45deg, #74cfc0, #cbe9e9) !important;
 }
 
 .background-move-ice {
-    background-color: #bbd2f3 !important;
+    background-color: #79c7ba !important;
 }
 
 .color-ghost {
@@ -192,33 +192,33 @@
 }
 
 .background-ghost {
-    background-image: linear-gradient(45deg, #7055aa, #a793e2) !important;
+    background-image: linear-gradient(45deg, #5e55aa, #806c94) !important;
 }
 
 .background-move-ghost {
-    background-color: #7055aa !important;
+    background-color: #585399 !important;
 }
 
 .color-dragon {
-    color: #7f56dd !important;
+    color: #5670be !important;
 }
 
 .background-dragon {
-    background-image: linear-gradient(45deg, #7f56dd, #ad94f7) !important;
+    background-image: linear-gradient(45deg, #5670be, #ad94f7) !important;
 }
 
 .background-move-dragon {
-    background-color: #7f56dd !important;
+    background-color: #5766b9 !important;
 }
 
 .color-dark {
-    color: #6e365b !important;
+    color: #4e4545 !important;
 }
 
 .background-dark {
-    background-image: linear-gradient(45deg, #6e365b, #b96ea0) !important;
+    background-image: linear-gradient(45deg, #4e4545, #b96ea0) !important;
 }
 
 .background-move-dark {
-    background-color: #6e365b !important;
+    background-color: #66415a !important;
 }

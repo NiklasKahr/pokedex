@@ -26,7 +26,7 @@
             <span class="color-black ms-2 me-0_5 disappear-animation">Stay up to date!</span>
         </div>
 
-        <div class="search-bar-container">
+        <div class="search-bar-container" title="Search by Name and ID">
             <img class="magnifying-glass" src="img/magnifying-glass.png" alt="Magnifying glass">
             <input class="search-bar" id="search" onkeyup="searchCards()" placeholder="Search">
         </div>
@@ -37,7 +37,7 @@
     </div>
 
     <div class="load-btn-container">
-        <button onclick="init()" id="load-button" class="btn">Load more</button>
+        <button onclick="init()" class="btn load-btn">Load more</button>
     </div>
     <!--Card large view-->
     <div onclick="hideElement('container-black')" id="container-black" class="z-index-1 d-none">
@@ -46,7 +46,7 @@
             <img onclick="hideElement('container-black')" class="cross" src="./img/cross.svg" alt="Cross">
             <div class="name-id-container text-align-center">
                 <h5 id="name" class="mb-0"></h5>
-                <span id="id" class="font-14px"></span>
+                <span id="id"></span>
             </div>
 
             <div class="sub-selected-card">
