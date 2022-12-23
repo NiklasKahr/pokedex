@@ -37,7 +37,7 @@
     </div>
 
     <div class="load-btn-container">
-        <button onclick="init()" class="btn load-btn">Load more</button>
+        <button onclick="init()" id="load-button" class="btn load-btn" title="Load more Pokémon">Load more</button>
     </div>
     <!--Card large view-->
     <div onclick="hideElement('container-black')" id="container-black" class="z-index-1 d-none">
@@ -50,10 +50,10 @@
             </div>
 
             <div class="sub-selected-card">
-                <div class="sprite-container z-index-2">
-                    <button onclick="" id="previous-btn" class="background-white filter">&lt;&lt;</button>
+                <div id="sprite-container" class="sprite-container z-index-2">
+                    <button onclick="" id="previous-btn" class="background-white filter" title="">&lt;&lt;</button>
                     <img id="sprite" class="mb-n2_3">
-                    <button onlick="" id="next-btn" class="background-white filter">&gt;&gt;</button>
+                    <button onlick="" id="next-btn" class="background-white filter" title="">&gt;&gt;</button>
                 </div>
                 <div class="moves-container">
                     <div class="sub-moves w-95 background-white p-2 border-radius-6px z-index-1 shadow-sm">
@@ -72,37 +72,37 @@
             </div>
 
             <div class="properties-container text-align-center">
-                <div class="sub-properties py-1">
+                <div class="sub-properties">
                     <h5 id="type" class="mb-0"></h5>
                     <span class="font-14px">Type</span>
                 </div>
 
-                <div class="border-left-white"></div>
+                <div id="border-left-white" class="border-left-white"></div>
 
-                <div class="sub-properties py-1">
+                <div class="sub-properties">
                     <div id="weight-container">
                         <h5 id="weight" class="property-alignment mb-0"></h5>
-                        <span id="kg-lb" class="unit-alignment font-14px ms-0_05"></span>
+                        <span id="kg-lb" class="font-14px ms-0_05"></span>
                     </div>
                     <span class="font-14px">Weight</span>
                 </div>
 
-                <div class="border-right-white"></div>
+                <div id="border-right-white" class="border-right-white"></div>
 
-                <div class="sub-properties py-1">
+                <div class="sub-properties">
                     <div id="height-container">
                         <h5 id="height" class="property-alignment mb-0"></h5>
-                        <span id="m-ft" class="unit-alignment font-14px ms-0_05"></span>
+                        <span id="m-ft" class="font-14px ms-0_05"></span>
                     </div>
                     <span class="font-14px">Height</span>
                 </div>
             </div>
-            <button onclick="" id="unit-btn" class="btn btn-white shadow-sm color-black background-white"></button>
+            <button onclick="" id="unit-btn" class="btn btn-white shadow-sm color-black background-white" title=""></button>
         </div>
     </div>
 
     <footer class="z-index-1 padding pt-4">
-        <a href="https://www.flaticon.com/free-icons/pokemon" title="Pokémon icons" target="_blank">
+        <a href="https://www.flaticon.com/free-icons/pokemon" title="Pokémon Icons" target="_blank">
             Pokémon icons created by Freepik on Flaticon
         </a>
         <br>

@@ -1,3 +1,4 @@
+//purpose: main script of the project
 let pokemons = [];
 let currentPokemon;
 let isAmerican;
@@ -5,15 +6,15 @@ let amountOfPokemon = 0;
 let offset;
 
 
-async function init() {
+async function init() { //start of the program
     await fillArray();
     renderContent();
 }
 
 
-async function fillArray() {
+async function fillArray() { //load 40 pokemon at a time
     offset = amountOfPokemon;
-    amountOfPokemon += 30;
+    amountOfPokemon += 40;
     for (let i = offset; i < amountOfPokemon; i++) { //max of 905
         const url = `https://pokeapi.co/api/v2/pokemon/${i + 1}/`; //152
         let response = await fetch(url);
@@ -25,7 +26,7 @@ async function fillArray() {
 
 
 //render functions
-function renderContent() {
+function renderContent() { //render array of pokemon
     for (let i = offset; i < pokemons.length; i++) {
         const pokemon = pokemons[i];
         document.getElementById('content').innerHTML += `
@@ -42,7 +43,7 @@ function renderContent() {
 }
 
 
-function renderCard(i) {
+function renderCard(i) { //event listener for each pokemon card
     let pokemon = pokemons[i];
     showElement('container-black');
 
@@ -59,31 +60,46 @@ function renderCard(i) {
 
 
 function renderButtons(i, pokemon) {
-    let unitButton = document.getElementById('unit-btn');
-
-    renderPrevAndNxtButton(i, pokemon);
-
-    unitButton.onclick = function () { convertUnits(i); };
-    replaceColor(unitButton, 'color', pokemon);
+    renderPrevButton(i, pokemon);
+    renderNxtButton(i, pokemon);
+    renderUnitButton(i, pokemon);
 }
 
 
-function renderPrevAndNxtButton(i, pokemon) {
+function renderUnitButton(i, pokemon) {
+    let unitButton = document.getElementById('unit-btn');
+    //execute renderButtons() again to update the button
+    unitButton.onclick = function () { convertUnits(i); renderButtons(i, pokemon); };
+    replaceColor(unitButton, 'color', pokemon);
+    unitButton.title = 'Convert to ' + (isAmerican ? 'International' : 'American') + ' Units';
+}
+
+
+function renderPrevButton(i, pokemon) {
     let previousButton = document.getElementById('previous-btn');
+
+    if (pokemon != pokemons[0]) { //if pokemon is not the first one
+        previousButton.onclick = function () { renderCard(i - 1); }
+        previousButton.title = 'Show ' + pokemons[i - 1]['name'].charAt(0).toUpperCase() + pokemons[i - 1]['name'].slice(1);
+    } else {
+        previousButton.onclick = '';
+        previousButton.title = '';
+    }
+    replaceColor(previousButton, 'background-move', pokemon);
+}
+
+
+function renderNxtButton(i, pokemon) {
     let nextButton = document.getElementById('next-btn');
 
-    previousButton.onclick = function () {
-        if (pokemon != pokemons[0]) {
-            renderCard(i - 1);
-        }
-    };
-    replaceColor(previousButton, 'background-move', pokemon);
-
-    nextButton.onclick = function () {
-        if (pokemon != pokemon[905] && pokemons[i + 1] != undefined) {
-            renderCard(i + 1);
-        }
-    };
+    if (pokemon != pokemon[905] && pokemons[i + 1] != undefined) { //if pokemon is not the last one
+        nextButton.onclick = function () { renderCard(i + 1); }
+        nextButton.title = 'Show ' + pokemons[i + 1]['name'].charAt(0).toUpperCase() + pokemons[i + 1]['name'].slice(1);
+    } else {
+        //await init(), then execute renderNxtButton() again to update the button
+        nextButton.onclick = async function () { await init(); renderNxtButton(i, pokemon); }
+        nextButton.title = 'Load more Pokémon';
+    }
     replaceColor(nextButton, 'background-move', pokemon);
 }
 
@@ -100,7 +116,7 @@ function renderMoves(pokemon) {
     let move0 = document.getElementById('move0');
 
     move0.innerHTML = move0Name.charAt(0).toUpperCase() + move0Name.slice(1);
-    replaceColor(move0, 'background-move', pokemon);
+    replaceColor(move0, 'background-move', pokemon); //replace move color with color of pokemon
 
     renderMove1To3(pokemon, 'move1', 4)
     renderMove1To3(pokemon, 'move2', 10)
@@ -111,13 +127,13 @@ function renderMoves(pokemon) {
 function renderMove1To3(pokemon, moveNumber, moveIndex) {
     if (moveUndefined(pokemon, moveIndex)) {
         let move = document.getElementById(`${moveNumber}`);
-        move.innerHTML = '';
+        move.innerHTML = ''; //remove text from move
 
-        currentColor = searchForColorProperty(createArrayOfClass(move), 'background');
+        currentColor = searchForColorProperty(createArrayOfClass(move), 'background'); //get current move color
         //use of replaceColor() not possible since it expects a pokemon and "lightgray" is not one
-        move.classList.replace(currentColor, 'background-lightgray');
+        move.classList.replace(currentColor, 'background-lightgray'); //replace move color with lightgray
     } else {
-        //take moves at indexes [4, 10, 15] (instead of [1, 2, 3]) as moves are sorted by similartiy of their names
+        //take moves at indexes [4, 10, 15] (instead of [1, 2, 3]) as moves are sorted by the similartiy of their names
         let moveName = pokemon['moves'][moveIndex]['move']['name'];
         let move = document.getElementById(`${moveNumber}`);
 
@@ -136,70 +152,64 @@ function renderType(pokemon) {
             pokemon['types'][0]['type']['name'].slice(1) + '<br>' +
             pokemon['types'][1]['type']['name'].charAt(0).toUpperCase() +
             pokemon['types'][1]['type']['name'].slice(1);
-        adjustPropertyElements('add', pokemon);
+        //adjustPropertyElements('add', pokemon);
     } else {
         type.innerHTML =
             evaluateType(pokemon).charAt(0).toUpperCase() + evaluateType(pokemon).slice(1);
-        adjustPropertyElements('remove', pokemon);
+        //adjustPropertyElements('remove', pokemon);
     }
+    adjustPropertyElements(pokemon);
 }
 
-
-function adjustPropertyElements(action, pokemon) {
-    document.getElementById('kg-lb').classList[action]('unit-alignment');
-    document.getElementById('m-ft').classList[action]('unit-alignment');
-
-    adjustStyle(pokemon);
-
-    let typeElementHeight = type.getBoundingClientRect()['height'] + 'px';
-    weight.style.height = typeElementHeight;
-    height.style.height = typeElementHeight;
-
-    adjustPropertyElementsMobile();
-}
-
-
-function adjustStyle(pokemon) {
+//adjusts the line height of the type element
+function adjustPropertyElements(pokemon) {
     if (has2Types(pokemon)) {
-        document.getElementById('weight-container').style.alignItems = 'center';
-        document.getElementById('height-container').style.alignItems = 'center';
         document.getElementById('type').style.lineHeight = 1.1;
-        document.getElementById('kg-lb').style.lineHeight = 'unset';
-        document.getElementById('m-ft').style.lineHeight = 'unset';
+        document.getElementById('border-left-white').style.height = '52%';
+        document.getElementById('border-right-white').style.height = '52%';
+
     } else {
-        document.getElementById('weight-container').style.alignItems = 'flex-end';
-        document.getElementById('height-container').style.alignItems = 'flex-end';
         document.getElementById('type').style.lineHeight = 1.2;
-        document.getElementById('kg-lb').style.lineHeight = 'unset';
-        document.getElementById('m-ft').style.lineHeight = 'unset';
-    }
-}
-
-
-function adjustPropertyElementsMobile() {
-    if (has2Types(extractPokemon()) && window.innerWidth <= 465) {
-        document.getElementById('kg-lb').style.lineHeight = 'unset';
-        document.getElementById('m-ft').style.lineHeight = 'unset';
-    } else if (window.innerWidth <= 465) {
-        document.getElementById('kg-lb').style.lineHeight = '1.2';
-        document.getElementById('m-ft').style.lineHeight = '1.2';
+        document.getElementById('border-left-white').style.height = '45%';
+        document.getElementById('border-right-white').style.height = '45%';
     }
 }
 
 //search functions
-function searchCards() {
+function searchCards() { //searches for cards with the name or id of the pokemon
     let content = document.getElementById('content');
     let search = document.getElementById('search').value.toLowerCase().replace(/ +/g, "");
 
     if (search == '') {
-        renderContent();
+        reverseSearch(content);
+    } else {
+        executeSearch(content, search);
     }
+}
 
+//shows all cards again
+async function reverseSearch(content) {
+    content.innerHTML = '';
+    pokemons = [];
+    amountOfPokemon = 0;
+    await init();
+    showButtons();
+    document.getElementById('sprite-container').style.justifyContent = 'space-between';
+    document.getElementById('load-button').onclick = function () { init(); };
+}
+
+//makes preparations and executes the search
+function executeSearch(content, search) {
     content.innerHTML = '';
     renderSearchedCards(content, search);
+    hideButtons();
+    document.getElementById('sprite-container').style.justifyContent = 'center';
+    //loads more cards that fulfill the search criteria
+    document.getElementById('load-button').onclick = async function () { await fillArray(); executeSearch(content, search); };
 }
 
 
+//renders the cards that match the search
 function renderSearchedCards(content, search) {
     for (let i = 0; i < pokemons.length; i++) {
         const pokemon = pokemons[i];
@@ -231,19 +241,31 @@ function hideElement(id) {
     }
 }
 
+//hides the buttons when searching for cards
+function hideButtons() {
+    document.getElementById('previous-btn').style.display = 'none';
+    document.getElementById('next-btn').style.display = 'none';
+}
 
+//shows the buttons when not searching for cards anymore
+function showButtons() {
+    document.getElementById('previous-btn').style.display = 'flex';
+    document.getElementById('next-btn').style.display = 'flex';
+}
+
+//prevents the container from closing when clicking inside it
 function doNotClose(event) {
     event.stopPropagation();
 }
 
 //color functions
-function replaceColor(element, colorProperty, pokemon) {
+function replaceColor(element, colorProperty, pokemon) { //replaces the color of the element
     let arrayOfClasses = createArrayOfClass(element);
     let currentColor = searchForColorProperty(arrayOfClasses, split(colorProperty));
     element.classList.replace(currentColor, `${colorProperty}-` + evaluateType(pokemon));
 }
 
-
+//receives array of classes and returns the class that contains the color property
 function searchForColorProperty(arrayOfClasses, splitColorProperty) {
     for (let i = 0; i < arrayOfClasses.length; i++) {
         const currentClass = arrayOfClasses[i];
@@ -254,35 +276,34 @@ function searchForColorProperty(arrayOfClasses, splitColorProperty) {
     }
 }
 
-
+//returns split color property
 function split(colorProperty) {
     return colorProperty.split('-')[0];
 }
 
 //conditionals
-function type0EqualsNormal(pokemon) {
+function type0EqualsNormal(pokemon) { //returns true if type0 is normal
     return pokemon['types'][0]['type']['name'] == 'normal';
 }
 
-
+//returns true if type1 exists
 function has2Types(pokemon) {
     return pokemon['types'][1];
 }
 
-
+//returns true if the move is undefined
 function moveUndefined(pokemon, moveIndex) {
     return pokemon['moves'][moveIndex] == undefined;
 }
 
-
+//returns true if the card is visible
 function cardIsVisible() {
     return !document.getElementById('container-black').classList.contains('d-none');
 }
 
 //parameter functions
-function evaluateType(pokemon) {
-    //if type0 is normal and type1 exists, return type1
-    if (type0EqualsNormal(pokemon) && has2Types(pokemon)) {
+function evaluateType(pokemon) { //returns the type of the pokemon
+    if (type0EqualsNormal(pokemon) && has2Types(pokemon)) { //if type0 is normal and type1 exists, return type1
         let type1 = pokemon['types'][1]['type']['name'];
         return type1;
     } else {
@@ -291,16 +312,15 @@ function evaluateType(pokemon) {
     }
 }
 
-
+//returns the id of pokemon based on the card id
 function extractPokemon() {
     let i = document.getElementById('id').textContent.replace('#', '') - 1;
     return pokemons[i];
 }
 
 //conversion functions
-function convertUnits(i) {
+function convertUnits(i) { //converts american units to international units and vice versa
     let pokemon = pokemons[i]
-
     if (isAmerican) {
         convertToInternational(pokemon);
         isAmerican = false;
@@ -310,7 +330,7 @@ function convertUnits(i) {
     }
 }
 
-
+//converts american units to international units
 function convertToInternational(pokemon) {
     document.getElementById('weight').innerHTML = (pokemon['weight'] / 10).toFixed(1).replace('.', ',');
     document.getElementById('kg-lb').innerHTML = 'kg';
@@ -321,7 +341,7 @@ function convertToInternational(pokemon) {
     document.getElementById('unit-btn').innerHTML = 'lb/ft';
 }
 
-
+//converts international units to american units
 function convertToAmerican(pokemon) {
     let weight = document.getElementById('weight');
     let height = document.getElementById('height');
@@ -335,7 +355,7 @@ function convertToAmerican(pokemon) {
     document.getElementById('unit-btn').innerHTML = 'kg/m';
 }
 
-//other
+//returns an array of classes
 function createArrayOfClass(element) {
     return Array.from(element.classList);
 }
