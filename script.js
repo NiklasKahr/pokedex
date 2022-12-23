@@ -1,22 +1,24 @@
 //purpose: main script of the project
 let pokemons = [];
 let currentPokemon;
-let isAmerican;
 let amountOfPokemon = 0;
 let offset;
+let isAmerican;
 
 
 async function init() { //start of the program
-    await fillArray();
+    document.getElementById('load-button').disabled = true; //prevent user from spamming
+    document.getElementById('next-button').disabled = true;
+    await fillPokemonArray();
     renderContent();
 }
 
 
-async function fillArray() { //load 40 pokemon at a time
+async function fillPokemonArray() { //load 40 pokemon at a time
     offset = amountOfPokemon;
     amountOfPokemon += 40;
     for (let i = offset; i < amountOfPokemon; i++) { //max of 905
-        const url = `https://pokeapi.co/api/v2/pokemon/${i + 1}/`; //152
+        const url = `https://pokeapi.co/api/v2/pokemon/${i + 1}/`;
         let response = await fetch(url);
         currentPokemon = await response.json();
 
@@ -40,6 +42,8 @@ function renderContent() { //render array of pokemon
         </div>
         `;
     }
+    document.getElementById('load-button').disabled = false;
+    document.getElementById('next-button').disabled = false;
 }
 
 
@@ -76,9 +80,9 @@ function renderUnitButton(i, pokemon) {
 
 
 function renderPrevButton(i, pokemon) {
-    let previousButton = document.getElementById('previous-btn');
+    let previousButton = document.getElementById('previous-button');
 
-    if (pokemon != pokemons[0]) { //if pokemon is not the first one
+    if (pokemonIsNotFirst(i)) { //if pokemon is not the first one
         previousButton.onclick = function () { renderCard(i - 1); }
         previousButton.title = 'Show ' + pokemons[i - 1]['name'].charAt(0).toUpperCase() + pokemons[i - 1]['name'].slice(1);
     } else {
@@ -90,9 +94,9 @@ function renderPrevButton(i, pokemon) {
 
 
 function renderNxtButton(i, pokemon) {
-    let nextButton = document.getElementById('next-btn');
+    let nextButton = document.getElementById('next-button');
 
-    if (pokemon != pokemon[905] && pokemons[i + 1] != undefined) { //if pokemon is not the last one
+    if (pokemonIsNotLast(i)) { //if pokemon is not the last one
         nextButton.onclick = function () { renderCard(i + 1); }
         nextButton.title = 'Show ' + pokemons[i + 1]['name'].charAt(0).toUpperCase() + pokemons[i + 1]['name'].slice(1);
     } else {
@@ -146,23 +150,21 @@ function renderMove1To3(pokemon, moveNumber, moveIndex) {
 function renderType(pokemon) {
     let type = document.getElementById('type');
 
-    if (has2Types(pokemon)) {
+    if (has2Types(pokemon)) { //display 2 types if pokemon has 2 types
         type.innerHTML =
             pokemon['types'][0]['type']['name'].charAt(0).toUpperCase() +
             pokemon['types'][0]['type']['name'].slice(1) + '<br>' +
             pokemon['types'][1]['type']['name'].charAt(0).toUpperCase() +
             pokemon['types'][1]['type']['name'].slice(1);
-        //adjustPropertyElements('add', pokemon);
-    } else {
+    } else { //display 1 type if pokemon has 1 type
         type.innerHTML =
             evaluateType(pokemon).charAt(0).toUpperCase() + evaluateType(pokemon).slice(1);
-        //adjustPropertyElements('remove', pokemon);
     }
     adjustPropertyElements(pokemon);
 }
 
-//adjusts the line height of the type element
-function adjustPropertyElements(pokemon) {
+
+function adjustPropertyElements(pokemon) { //adjust the line height of the type element
     if (has2Types(pokemon)) {
         document.getElementById('type').style.lineHeight = 1.1;
         document.getElementById('border-left-white').style.height = '52%';
@@ -176,7 +178,7 @@ function adjustPropertyElements(pokemon) {
 }
 
 //search functions
-function searchCards() { //searches for cards with the name or id of the pokemon
+function searchCards() { //search for cards with the name or id of the pokemon
     let content = document.getElementById('content');
     let search = document.getElementById('search').value.toLowerCase().replace(/ +/g, "");
 
@@ -187,8 +189,9 @@ function searchCards() { //searches for cards with the name or id of the pokemon
     }
 }
 
-//shows all cards again
-async function reverseSearch(content) {
+
+async function reverseSearch(content) { //show all cards again
+    document.getElementById('search').disabled = true; //prevent user from spamming backspace
     content.innerHTML = '';
     pokemons = [];
     amountOfPokemon = 0;
@@ -196,24 +199,24 @@ async function reverseSearch(content) {
     showButtons();
     document.getElementById('sprite-container').style.justifyContent = 'space-between';
     document.getElementById('load-button').onclick = function () { init(); };
+    document.getElementById('search').disabled = false;
 }
 
-//makes preparations and executes the search
-function executeSearch(content, search) {
+
+function executeSearch(content, search) { //make preparations and executes the search
     content.innerHTML = '';
     renderSearchedCards(content, search);
     hideButtons();
     document.getElementById('sprite-container').style.justifyContent = 'center';
     //loads more cards that fulfill the search criteria
-    document.getElementById('load-button').onclick = async function () { await fillArray(); executeSearch(content, search); };
+    document.getElementById('load-button').onclick = async function () { await fillPokemonArray(); executeSearch(content, search); };
 }
 
 
-//renders the cards that match the search
-function renderSearchedCards(content, search) {
+function renderSearchedCards(content, search) { //render the cards that match the search
     for (let i = 0; i < pokemons.length; i++) {
         const pokemon = pokemons[i];
-        if (pokemon['name'].includes(search) || pokemon['id'].toString().includes(search)) {
+        if (nameOrIdMatch(pokemon, search)) {
             content.innerHTML += `
             <div onclick="renderCard(${i})" id="card${i}" class="content-card background-${evaluateType(pokemon)} filter px-2 py-3 m-cards shadow-sm">
                 <div class="text-align-center">
@@ -241,31 +244,31 @@ function hideElement(id) {
     }
 }
 
-//hides the buttons when searching for cards
-function hideButtons() {
-    document.getElementById('previous-btn').style.display = 'none';
-    document.getElementById('next-btn').style.display = 'none';
+
+function hideButtons() { //hide the buttons when searching for cards
+    document.getElementById('previous-button').style.display = 'none';
+    document.getElementById('next-button').style.display = 'none';
 }
 
-//shows the buttons when not searching for cards anymore
-function showButtons() {
-    document.getElementById('previous-btn').style.display = 'flex';
-    document.getElementById('next-btn').style.display = 'flex';
+
+function showButtons() { //show the buttons when not searching for cards anymore
+    document.getElementById('previous-button').style.display = 'flex';
+    document.getElementById('next-button').style.display = 'flex';
 }
 
-//prevents the container from closing when clicking inside it
-function doNotClose(event) {
+
+function doNotClose(event) { //prevent the container from closing when clicking inside it
     event.stopPropagation();
 }
 
 //color functions
-function replaceColor(element, colorProperty, pokemon) { //replaces the color of the element
+function replaceColor(element, colorProperty, pokemon) { //replace the color of the element
     let arrayOfClasses = createArrayOfClass(element);
     let currentColor = searchForColorProperty(arrayOfClasses, split(colorProperty));
     element.classList.replace(currentColor, `${colorProperty}-` + evaluateType(pokemon));
 }
 
-//receives array of classes and returns the class that contains the color property
+//receive array of classes and returns the class that contains the color property
 function searchForColorProperty(arrayOfClasses, splitColorProperty) {
     for (let i = 0; i < arrayOfClasses.length; i++) {
         const currentClass = arrayOfClasses[i];
@@ -276,33 +279,44 @@ function searchForColorProperty(arrayOfClasses, splitColorProperty) {
     }
 }
 
-//returns split color property
-function split(colorProperty) {
+
+function split(colorProperty) { //return split color property
     return colorProperty.split('-')[0];
 }
 
 //conditionals
-function type0EqualsNormal(pokemon) { //returns true if type0 is normal
+function type0EqualsNormal(pokemon) { //return true if type0 is normal
     return pokemon['types'][0]['type']['name'] == 'normal';
 }
 
-//returns true if type1 exists
-function has2Types(pokemon) {
+
+function has2Types(pokemon) { //return true if type1 exists
     return pokemon['types'][1];
 }
 
-//returns true if the move is undefined
-function moveUndefined(pokemon, moveIndex) {
+
+function moveUndefined(pokemon, moveIndex) { //return true if the move is undefined
     return pokemon['moves'][moveIndex] == undefined;
 }
 
-//returns true if the card is visible
-function cardIsVisible() {
+
+function pokemonIsNotFirst(i) { return i != 0; } //return true if the pokemon is not the first
+
+
+function pokemonIsNotLast(i) { return i != pokemons.length - 1; } //return true if the pokemon is not the last
+
+
+function cardIsVisible() { //return true if the card is visible
     return !document.getElementById('container-black').classList.contains('d-none');
 }
 
+
+function nameOrIdMatch(pokemon, search) { //return true if the name or id of the pokemon matches the search
+    return pokemon['name'].includes(search) || pokemon['id'].toString().includes(search);
+}
+
 //parameter functions
-function evaluateType(pokemon) { //returns the type of the pokemon
+function evaluateType(pokemon) { //return the type of the pokemon
     if (type0EqualsNormal(pokemon) && has2Types(pokemon)) { //if type0 is normal and type1 exists, return type1
         let type1 = pokemon['types'][1]['type']['name'];
         return type1;
@@ -312,14 +326,14 @@ function evaluateType(pokemon) { //returns the type of the pokemon
     }
 }
 
-//returns the id of pokemon based on the card id
-function extractPokemon() {
+
+function extractPokemon() { //return the id of pokemon based on the card id
     let i = document.getElementById('id').textContent.replace('#', '') - 1;
     return pokemons[i];
 }
 
 //conversion functions
-function convertUnits(i) { //converts american units to international units and vice versa
+function convertUnits(i) { //convert american units to international units and vice versa
     let pokemon = pokemons[i]
     if (isAmerican) {
         convertToInternational(pokemon);
@@ -330,8 +344,8 @@ function convertUnits(i) { //converts american units to international units and 
     }
 }
 
-//converts american units to international units
-function convertToInternational(pokemon) {
+
+function convertToInternational(pokemon) { //convert american units to international units
     document.getElementById('weight').innerHTML = (pokemon['weight'] / 10).toFixed(1).replace('.', ',');
     document.getElementById('kg-lb').innerHTML = 'kg';
 
@@ -341,8 +355,8 @@ function convertToInternational(pokemon) {
     document.getElementById('unit-btn').innerHTML = 'lb/ft';
 }
 
-//converts international units to american units
-function convertToAmerican(pokemon) {
+
+function convertToAmerican(pokemon) { //convert international units to american units
     let weight = document.getElementById('weight');
     let height = document.getElementById('height');
 
@@ -355,7 +369,7 @@ function convertToAmerican(pokemon) {
     document.getElementById('unit-btn').innerHTML = 'kg/m';
 }
 
-//returns an array of classes
-function createArrayOfClass(element) {
+
+function createArrayOfClass(element) { //return an array of classes
     return Array.from(element.classList);
 }

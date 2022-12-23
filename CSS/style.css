@@ -99,6 +99,10 @@ footer {
     --bs-btn-border-width: unset !important;
 }
 
+.load-btn:disabled {
+    background-color: #ec7a9b !important;
+}
+
 .load-btn-container {
     display: flex;
     justify-content: center;
@@ -217,8 +221,8 @@ footer {
     width: 100%;
 }
 
-#previous-btn,
-#next-btn {
+#previous-button,
+#next-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -232,25 +236,25 @@ footer {
     box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
 }
 
-#previous-btn:hover,
-#next-btn:hover {
+#previous-button:hover,
+#next-button:hover {
     transition: 200ms;
     filter: brightness(95%);
 }
 
-#previous-btn:active,
-#next-btn:active {
+#previous-button:active,
+#next-button:active {
     filter: brightness(91%);
 }
 
-#previous-btn {
+#previous-button {
     padding: 0 12px 0 20px;
     margin-left: -0.5rem;
     border-radius: 0 22px 22px 0;
     transform: translateY(0);
 }
 
-#next-btn {
+#next-button {
     padding: 0 20px 0 12px;
     border-radius: 22px 0 0 22px;
     margin-right: -0.5rem;
@@ -571,8 +575,8 @@ footer {
       line-height: 1.2;
     }
 
-    #previous-btn,
-    #next-btn {
+    #previous-button,
+    #next-button {
         height: 30px;
     }
 
