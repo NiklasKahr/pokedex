@@ -152,7 +152,7 @@ function renderNxtButton(i, pokemon) {
         nextButton.title = 'Show ' + formattedName;
     } else {
         // await init(), then execute renderNxtButton() again to update the button
-        nextButton.onclick = async function () { await init(); renderNxtButton(i, pokemon); }
+        nextButton.onclick = async function () { await loadMorePokemons(); renderNxtButton(i, pokemon); }
         nextButton.title = 'Load More Pokémon';
     }
     replaceColor(nextButton, 'background-move', pokemon);
@@ -232,9 +232,6 @@ function searchCards() { // search for cards with the name or id of the pokemon
             render(pokemon, index);
         }
     });
-
-    // preload the next batch based on the search query
-    preloadNextBatch();
 }
 
 function executeSearch() { // make preparations and executes the search

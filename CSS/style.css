@@ -243,8 +243,7 @@ footer {
 }
 
 #previous-button:disabled,
-next-button:disabled:disabled,
-load-button:disabled {
+#next-button:disabled {
     visibility: hidden;
 }
 
