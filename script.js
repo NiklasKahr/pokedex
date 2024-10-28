@@ -4,13 +4,11 @@ let amountOfPokemon = 0;
 let offset;
 let isAmerican;
 
-
 async function init() { // start of the program
     disableButtons(true); // prevent user from spamming
     await fillArray(render);
     disableButtons(false);
 }
-
 
 async function fillArray(callback) {
     const offset = amountOfPokemon;
@@ -26,7 +24,6 @@ async function fillArray(callback) {
     }
 }
 
-
 // render functions
 function render(pokemon, i) { // render array of pokemon
     document.getElementById('content').innerHTML += `
@@ -41,7 +38,6 @@ function render(pokemon, i) { // render array of pokemon
         `;
 }
 
-
 function renderCard(i) { // event listener for each pokemon card
     let pokemon = pokemons[i];
     showElement('container-black');
@@ -51,19 +47,17 @@ function renderCard(i) { // event listener for each pokemon card
     renderType(pokemon);
     replaceColor(document.getElementById('selected-card'), 'background', pokemon);
 
-    if (isAmerican) { convertToAmerican(pokemon); } else { convertToInternational(pokemon); }
+    isAmerican ? convertToAmerican(pokemon) : convertToInternational(pokemon)
     renderButtons(i, pokemon);
 
     document.body.style.overflowY = "hidden";
 }
-
 
 function renderButtons(i, pokemon) {
     renderPrevButton(i, pokemon);
     renderNxtButton(i, pokemon);
     renderUnitButton(i, pokemon);
 }
-
 
 function renderUnitButton(i, pokemon) {
     let unitButton = document.getElementById('unit-btn');
@@ -72,7 +66,6 @@ function renderUnitButton(i, pokemon) {
     replaceColor(unitButton, 'color', pokemon);
     unitButton.title = 'Convert to ' + (isAmerican ? 'International' : 'American') + ' Units';
 }
-
 
 function renderPrevButton(i, pokemon) {
     let previousButton = document.getElementById('previous-button');
@@ -86,7 +79,6 @@ function renderPrevButton(i, pokemon) {
     }
     replaceColor(previousButton, 'background-move', pokemon);
 }
-
 
 function renderNxtButton(i, pokemon) {
     let nextButton = document.getElementById('next-button');
@@ -102,13 +94,11 @@ function renderNxtButton(i, pokemon) {
     replaceColor(nextButton, 'background-move', pokemon);
 }
 
-
 function renderCredentials(pokemon) {
     document.getElementById('name').innerHTML = pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1);
     document.getElementById('id').innerHTML = '#' + pokemon['id'];
     document.getElementById('sprite').src = pokemon['sprites']['other']['official-artwork']['front_default'];
 }
-
 
 function renderMoves(pokemon) {
     let move0Name = pokemon['moves'][0]['move']['name'];
@@ -121,7 +111,6 @@ function renderMoves(pokemon) {
     renderMove1To3(pokemon, 'move2', 10)
     renderMove1To3(pokemon, 'move3', 15)
 }
-
 
 function renderMove1To3(pokemon, moveNumber, moveIndex) {
     if (moveUndefined(pokemon, moveIndex)) {
@@ -141,7 +130,6 @@ function renderMove1To3(pokemon, moveNumber, moveIndex) {
     }
 }
 
-
 function renderType(pokemon) {
     let type = document.getElementById('type');
 
@@ -157,7 +145,6 @@ function renderType(pokemon) {
     }
     adjustPropertyElements(pokemon);
 }
-
 
 function adjustPropertyElements(pokemon) { // adjust the line height of the type element
     if (has2Types(pokemon)) {
@@ -184,7 +171,6 @@ function searchCards() { // search for cards with the name or id of the pokemon
     }
 }
 
-
 async function reverseSearch(content) { // show all cards again
     document.getElementById('search').disabled = true; // prevent user from spamming backspace
     content.innerHTML = '';
@@ -196,7 +182,6 @@ async function reverseSearch(content) { // show all cards again
     document.getElementById('load-button').onclick = function () { init(); };
     document.getElementById('search').disabled = false;
 }
-
 
 function executeSearch(content, search) { // make preparations and executes the search
     disableButtons(true);
@@ -213,7 +198,6 @@ function executeSearch(content, search) { // make preparations and executes the 
         disableButtons(false);
     };
 }
-
 
 function renderSearchedCards(content, search) { // render the cards that match the search
     for (let i = 0; i < pokemons.length; i++) {
@@ -238,7 +222,6 @@ function showElement(id) {
     document.getElementById(id).classList.remove('d-none');
 }
 
-
 function hideElement(id) {
     document.getElementById(id).classList.add('d-none');
     if (id == 'container-black') {
@@ -246,18 +229,15 @@ function hideElement(id) {
     }
 }
 
-
 function hideButtons() { // hide the buttons when searching for cards
     document.getElementById('previous-button').style.display = 'none';
     document.getElementById('next-button').style.display = 'none';
 }
 
-
 function showButtons() { // show the buttons when not searching for cards anymore
     document.getElementById('previous-button').style.display = 'flex';
     document.getElementById('next-button').style.display = 'flex';
 }
-
 
 function doNotClose(event) { // prevent the container from closing when clicking inside it
     event.stopPropagation();
@@ -281,7 +261,6 @@ function searchForColorProperty(arrayOfClasses, splitColorProperty) {
     }
 }
 
-
 function split(colorProperty) { // return split color property
     return colorProperty.split('-')[0];
 }
@@ -291,27 +270,21 @@ function type0EqualsNormal(pokemon) { // return true if type0 is normal
     return pokemon['types'][0]['type']['name'] == 'normal';
 }
 
-
 function has2Types(pokemon) { // return true if type1 exists
     return pokemon['types'][1];
 }
-
 
 function moveUndefined(pokemon, moveIndex) { // return true if the move is undefined
     return pokemon['moves'][moveIndex] == undefined;
 }
 
-
 function pokemonIsNotFirst(i) { return i != 0; } // return true if the pokemon is not the first
 
-
 function pokemonIsNotLast(i) { return i != pokemons.length - 1; } // return true if the pokemon is not the last
-
 
 function cardIsVisible() { // return true if the card is visible
     return !document.getElementById('container-black').classList.contains('d-none');
 }
-
 
 function nameOrIdMatch(pokemon, search) { // return true if the name or id of the pokemon matches the search
     return pokemon['name'].includes(search) || pokemon['id'].toString().includes(search);
@@ -327,7 +300,6 @@ function evaluateType(pokemon) { // return the type of the pokemon
         return type0;
     }
 }
-
 
 function extractPokemon() { // return the id of pokemon based on the card id
     let i = document.getElementById('id').textContent.replace('#', '') - 1;
@@ -346,7 +318,6 @@ function convertUnits(i) { // convert american units to international units and 
     }
 }
 
-
 function convertToInternational(pokemon) { // convert american units to international units
     document.getElementById('weight').innerHTML = (pokemon['weight'] / 10).toFixed(1).replace('.', ',');
     document.getElementById('kg-lb').innerHTML = 'kg';
@@ -356,7 +327,6 @@ function convertToInternational(pokemon) { // convert american units to internat
 
     document.getElementById('unit-btn').innerHTML = 'lb/ft';
 }
-
 
 function convertToAmerican(pokemon) { // convert international units to american units
     let weight = document.getElementById('weight');
@@ -371,12 +341,10 @@ function convertToAmerican(pokemon) { // convert international units to american
     document.getElementById('unit-btn').innerHTML = 'kg/m';
 }
 
-
 function disableButtons(disabled) {
     document.getElementById('load-button').disabled = disabled;
     document.getElementById('next-button').disabled = disabled;
 }
-
 
 function createArrayOfClass(element) { // return an array of classes
     return Array.from(element.classList);
