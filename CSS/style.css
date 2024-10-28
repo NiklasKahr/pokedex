@@ -242,7 +242,9 @@ footer {
     filter: brightness(95%);
 }
 
-#previous-button:disabled {
+#previous-button:disabled,
+next-button:disabled:disabled,
+load-button:disabled {
     visibility: hidden;
 }
 
@@ -305,8 +307,8 @@ footer {
 
 .padding {
     /*8px content-card margin*/
-    padding-left: calc(14.5% + 8px);
-    padding-right: calc(14.5% + 8px);
+    padding-left: calc(14.5% + 8px) !important;
+    padding-right: calc(14.5% + 8px) !important;
 }
 
 .p-05 {
@@ -521,8 +523,8 @@ footer {
 @media(max-width: 785px) {
     .padding {
         /*4px contend-card margin*/
-        padding-left: calc(14.5% + 4px);
-        padding-right: calc(14.5% + 4px);
+        padding-left: calc(14.5% + 4px) !important;
+        padding-right: calc(14.5% + 4px) !important;
     }
 
     header {
@@ -552,8 +554,8 @@ footer {
 
     .padding {
         /*4px contend-card margin*/
-        padding-left: calc(3% + 4px);
-        padding-right: calc(3% + 4px);
+        padding-left: calc(3% + 4px) !important;
+        padding-right: calc(3% + 4px) !important;
     }
 
     .margin {
@@ -609,8 +611,8 @@ footer {
 @media(max-width: 355px) {
     .padding {
         /*4px contend-card margin*/
-        padding-left: calc(2% + 4px);
-        padding-right: calc(2% + 4px);
+        padding-left: calc(2% + 4px) !important;
+        padding-right: calc(2% + 4px) !important;
     }
 
     .margin {
