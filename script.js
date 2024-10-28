@@ -4,7 +4,6 @@ let currentPokemon;
 let amountOfPokemon = 0;
 let offset;
 let isAmerican;
-let semanticElementsAreExtended;
 let searchQuery;
 
 async function init() { // start of the program
@@ -99,12 +98,9 @@ function renderCard(i) { // event listener for each pokemon card
         document.body.style.marginRight = '14px';
         header.style.width = 'calc(100% + 14px)';
         footer.style.width = 'calc(100% + 14px)';
-        let currentPaddingRight = parseFloat(window.getComputedStyle(header).paddingRight);
-        if (!semanticElementsAreExtended) {
-            header.style.setProperty('padding-right', `${currentPaddingRight + 14}px`, 'important');
-            footer.style.setProperty('padding-right', `${currentPaddingRight + 14}px`, 'important');
-            semanticElementsAreExtended = true;
-        }
+        let currentPaddingRight = returnCurrentPadding(true);
+        header.style.setProperty('padding-right', `${currentPaddingRight}`, 'important');
+        footer.style.setProperty('padding-right', `${currentPaddingRight}`, 'important');
     }
 }
 
@@ -252,7 +248,7 @@ async function reverseSearch(content) { // show all cards again
     document.getElementById('load-button').disabled = false;
 
     content.innerHTML = '';
-    document.getElementById('search').value = '';    
+    document.getElementById('search').value = '';
     pokemons = [];
     amountOfPokemon = 0;
     await init();
@@ -298,11 +294,8 @@ function hideElement(id) {
         header.style.width = '100%';
         footer.style.width = '100%';
         let currentPaddingRight = returnCurrentPadding();
-        if (semanticElementsAreExtended) {
-            header.style.setProperty('padding-right', `${currentPaddingRight}`);
-            footer.style.setProperty('padding-right', `${currentPaddingRight}`);
-            semanticElementsAreExtended = false;
-        }
+        header.style.setProperty('padding-right', `${currentPaddingRight}`);
+        footer.style.setProperty('padding-right', `${currentPaddingRight}`);
     }
 }
 
@@ -429,23 +422,41 @@ function createArrayOfClass(element) { // return an array of classes
     return Array.from(element.classList);
 }
 
-function returnCurrentPadding() { // return the current padding right of the header
+function returnCurrentPadding(includingScrollbar) { // return the current padding right of both the header and footer
+    let scrollbarWidth = includingScrollbar ? 14 : 0;
     let paddingValue;
     const screenWidth = window.innerWidth;
 
     switch (true) {
-        case (screenWidth <= 785):
-            paddingValue = 'calc(14.5% + 4px)';
+        case (screenWidth > 465 && screenWidth <= 785):
+            paddingValue = 'calc(14.5% + 4px + ' + scrollbarWidth + 'px)';
             break;
-        case (screenWidth <= 465):
-            paddingValue = 'calc(3% + 4px)';
+        case (screenWidth > 355 && screenWidth <= 465):
+            paddingValue = 'calc(3% + 4px + ' + scrollbarWidth + 'px)';
             break;
         case (screenWidth <= 355):
-            paddingValue = 'calc(2% + 4px)';
+            paddingValue = 'calc(2% + 4px + ' + scrollbarWidth + 'px)';
             break;
         default:
-            paddingValue = 'calc(14.5% + 8px)';
+            paddingValue = 'calc(14.5% + 8px + ' + scrollbarWidth + 'px)';
     }
 
     return paddingValue;
+}
+
+addEventListener('resize', setLayout);
+
+function setLayout() {
+    if (cardIsVisible()) {
+        let currentPaddingRight = returnCurrentPadding(true);
+        console.log(window.innerWidth, currentPaddingRight);
+        header.style.setProperty('padding-right', `${currentPaddingRight}`, 'important');
+        footer.style.setProperty('padding-right', `${currentPaddingRight}`, 'important');
+        if (window.innerWidth > 465) {
+            document.body.style.overflowY = "hidden";
+            document.body.style.marginRight = '14px';
+            header.style.width = 'calc(100% + 14px)';
+            footer.style.width = 'calc(100% + 14px)';
+        }
+    }
 }

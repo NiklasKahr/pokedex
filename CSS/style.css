@@ -634,7 +634,7 @@ footer {
     }
 }
 
-@media(max-width: 277px) {
+@media(max-width: 295px) {
     #content {
         justify-content: center;
     }
