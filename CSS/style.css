@@ -242,6 +242,10 @@ footer {
     filter: brightness(95%);
 }
 
+#previous-button:disabled {
+    visibility: hidden;
+}
+
 #previous-button:active,
 #next-button:active {
     filter: brightness(91%);
