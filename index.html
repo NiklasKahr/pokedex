@@ -18,7 +18,7 @@
 </head>
 
 <body onload="init()">
-    <header class="header z-index-1 padding shadow-sm">
+    <header id="header" class="z-index-1 padding shadow-sm">
         <div class="logo-container">
             <a title="pokemon.com" href="https://www.pokemon.com" target="_blank">
                 <img class="logo logo-animation" src="./img/favicon.png" alt="Pokéball">
@@ -28,7 +28,7 @@
 
         <div class="search-bar-container" title="Search by Name and ID">
             <img class="magnifying-glass" src="img/magnifying-glass.png" alt="Magnifying glass">
-            <input class="search-bar" id="search" onkeyup="searchCards()" placeholder="Search">
+            <input class="search-bar" id="search" onkeyup="executeSearch()" placeholder="Search">
         </div>
     </header>
 
@@ -37,7 +37,7 @@
     </div>
 
     <div class="load-btn-container">
-        <button onclick="init()" id="load-button" class="btn load-btn">Load more</button>
+        <button onclick="loadMorePokemons()" id="load-button" class="btn load-btn">Load more</button>
     </div>
     <!--Card large view-->
     <div onclick="hideElement('container-black')" id="container-black" class="z-index-1 d-none">
@@ -101,7 +101,7 @@
         </div>
     </div>
 
-    <footer class="z-index-1 padding pt-4">
+    <footer id="footer" class="z-index-1 padding pt-4">
         <a href="https://www.flaticon.com/free-icons/pokemon" title="Pokémon Icons" target="_blank">
             Pokémon icons created by Freepik on Flaticon
         </a>
