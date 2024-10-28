@@ -449,7 +449,6 @@ addEventListener('resize', setLayout);
 function setLayout() {
     if (cardIsVisible()) {
         let currentPaddingRight = returnCurrentPadding(true);
-        console.log(window.innerWidth, currentPaddingRight);
         header.style.setProperty('padding-right', `${currentPaddingRight}`, 'important');
         footer.style.setProperty('padding-right', `${currentPaddingRight}`, 'important');
         if (window.innerWidth > 465) {
@@ -458,5 +457,20 @@ function setLayout() {
             header.style.width = 'calc(100% + 14px)';
             footer.style.width = 'calc(100% + 14px)';
         }
+    } else {
+        let currentPaddingRight = returnCurrentPadding();
+        header.style.setProperty('padding-right', `${currentPaddingRight}`, 'important');
+        footer.style.setProperty('padding-right', `${currentPaddingRight}`, 'important');
+        if (window.innerWidth > 465) {
+            document.body.style.overflowY = "overlay";
+            document.body.style.marginRight = '0';
+            header.style.width = 'calc(100%)';
+            footer.style.width = 'calc(100%)';
+        }
     }
+    if (window.innerWidth < 465) {
+        document.body.style.overflowY = "overlay";
+        document.body.style.marginRight = '0';
+    }
+
 }
