@@ -1,41 +1,85 @@
 let pokemons = [];
+let preloadedPokemons = [];
 let currentPokemon;
 let amountOfPokemon = 0;
 let offset;
 let isAmerican;
+let semanticElementsAreExtended;
+let searchQuery;
 
 async function init() { // start of the program
     disableButtons(true); // prevent user from spamming
-    await fillArray(render);
+    await loadAndRenderPokemons(render);
+    preloadNextBatch();
     disableButtons(false);
 }
 
-async function fillArray(callback) {
+// load and render the current set of Pokémon
+async function loadAndRenderPokemons() {
     const offset = amountOfPokemon;
     amountOfPokemon += 30;
+
     for (let i = offset; i < amountOfPokemon; i++) {
         const url = `https://pokeapi.co/api/v2/pokemon/${i + 1}/`;
         let response = await fetch(url);
         currentPokemon = await response.json();
         pokemons.push(currentPokemon);
-        if (callback) {
-            callback(currentPokemon, i);
+        if (!searchQuery || nameOrIdMatch(currentPokemon, searchQuery)) {
+            render(currentPokemon, i);
+        }
+    }
+}
+
+// preload the next batch of 30 Pokémon without rendering
+async function preloadNextBatch() {
+    const preloadOffset = amountOfPokemon;
+    const preloadAmount = preloadOffset + 30;
+    preloadedPokemons = []; // Clear any previous preloaded data
+
+    for (let i = preloadOffset; i < preloadAmount; i++) {
+        const url = `https://pokeapi.co/api/v2/pokemon/${i + 1}/`;
+        let response = await fetch(url);
+        let nextPokemon = await response.json();
+        if (!searchQuery || nameOrIdMatch(nextPokemon, searchQuery)) {
+            preloadedPokemons.push(nextPokemon);
         }
     }
 }
 
 // render functions
-function render(pokemon, i) { // render array of pokemon
+function render(pokemon, i) {
+    let formattedName = pokemon['name']
+        .replace('-f', ' (f)')
+        .replace('-m', ' (m)');
+    formattedName = formattedName.charAt(0).toUpperCase() + formattedName.slice(1);
+
     document.getElementById('content').innerHTML += `
         <div onclick="renderCard(${i})" id="card${i}" class="content-card background-${evaluateType(pokemon)} filter px-2 py-3 m-cards shadow-sm">
             <div class="text-align-center">
-                <h5 class="content-name mb-0">${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}</h5>
+                <h5 class="content-name mb-0">${formattedName}</h5>
                 <span class="content-id">#${pokemon['id']}</span>
             </div>
             <img class="content-sprite" src="${pokemon['sprites']['other']['official-artwork']['front_default']}" 
             alt="${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}">
         </div>
-        `;
+    `;
+}
+
+// load preloaded Pokémon when "Load More" is clicked, and preload the next batch
+async function loadMorePokemons() {
+    disableButtons(true);
+
+    // add preloaded Pokémon to main array and render only those matching the search
+    preloadedPokemons.forEach((pokemon, index) => {
+        pokemons.push(pokemon);
+        if (!searchQuery || nameOrIdMatch(pokemon, searchQuery)) {
+            render(pokemon, amountOfPokemon + index);
+        }
+    });
+
+    amountOfPokemon += preloadedPokemons.length;
+    await preloadNextBatch();
+    disableButtons(false);
 }
 
 function renderCard(i) { // event listener for each pokemon card
@@ -50,7 +94,16 @@ function renderCard(i) { // event listener for each pokemon card
     isAmerican ? convertToAmerican(pokemon) : convertToInternational(pokemon)
     renderButtons(i, pokemon);
 
-    document.body.style.overflowY = "hidden";
+    if (window.innerWidth > 465) {
+        document.body.style.overflowY = "hidden";
+        document.body.style.marginRight = '14px';
+        let currentPaddingRight = parseFloat(window.getComputedStyle(header).paddingRight);
+        if (!semanticElementsAreExtended) {
+            header.style.paddingRight = `${currentPaddingRight + 14}px`;
+            footer.style.paddingRight = `${currentPaddingRight + 14}px`;
+            semanticElementsAreExtended = true;
+        }
+    }
 }
 
 function renderButtons(i, pokemon) {
@@ -72,9 +125,14 @@ function renderPrevButton(i, pokemon) {
 
     if (pokemonIsNotFirst(i)) { // if pokemon is not the first one
         previousButton.onclick = function () { renderCard(i - 1); }
-        previousButton.title = 'Show ' + pokemons[i - 1]['name'].charAt(0).toUpperCase() + pokemons[i - 1]['name'].slice(1);
+        let formattedName = pokemons[i - 1]['name']
+            .replace('-f', ' (f)')
+            .replace('-m', ' (m)');
+        formattedName = formattedName.charAt(0).toUpperCase() + formattedName.slice(1);
+        previousButton.title = 'Show ' + formattedName;
+        previousButton.disabled = false;
     } else {
-        previousButton.onclick = '';
+        previousButton.disabled = true;
         previousButton.title = '';
     }
     replaceColor(previousButton, 'background-move', pokemon);
@@ -85,49 +143,51 @@ function renderNxtButton(i, pokemon) {
 
     if (pokemonIsNotLast(i)) { // if pokemon is not the last one
         nextButton.onclick = function () { renderCard(i + 1); }
-        nextButton.title = 'Show ' + pokemons[i + 1]['name'].charAt(0).toUpperCase() + pokemons[i + 1]['name'].slice(1);
+        let formattedName = pokemons[i + 1]['name']
+            .replace('-f', ' (f)')
+            .replace('-m', ' (m)');
+        formattedName = formattedName.charAt(0).toUpperCase() + formattedName.slice(1);
+        nextButton.title = 'Show ' + formattedName;
     } else {
         // await init(), then execute renderNxtButton() again to update the button
         nextButton.onclick = async function () { await init(); renderNxtButton(i, pokemon); }
-        nextButton.title = 'Load more Pokémon';
+        nextButton.title = 'Load More Pokémon';
     }
     replaceColor(nextButton, 'background-move', pokemon);
 }
 
 function renderCredentials(pokemon) {
-    document.getElementById('name').innerHTML = pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1);
+    let formattedName = pokemon['name']
+        .replace('-f', ' (f)')
+        .replace('-m', ' (m)');
+    formattedName = formattedName.charAt(0).toUpperCase() + formattedName.slice(1);
+    document.getElementById('name').innerHTML = formattedName;
     document.getElementById('id').innerHTML = '#' + pokemon['id'];
     document.getElementById('sprite').src = pokemon['sprites']['other']['official-artwork']['front_default'];
 }
 
 function renderMoves(pokemon) {
-    let move0Name = pokemon['moves'][0]['move']['name'];
-    let move0 = document.getElementById('move0');
+    // use moves at indices [4, 10, 15] (instead of [1, 2, 3]) as moves are sorted by the similartiy of their names
+    const moveIndices = [0, 4, 10, 15];
 
-    move0.innerHTML = move0Name.charAt(0).toUpperCase() + move0Name.slice(1);
-    replaceColor(move0, 'background-move', pokemon); // replace move color with color of pokemon
+    moveIndices.forEach((moveIndex, i) => {
+        const moveElement = document.getElementById(`move${i}`);
 
-    renderMove1To3(pokemon, 'move1', 4)
-    renderMove1To3(pokemon, 'move2', 10)
-    renderMove1To3(pokemon, 'move3', 15)
-}
-
-function renderMove1To3(pokemon, moveNumber, moveIndex) {
-    if (moveUndefined(pokemon, moveIndex)) {
-        let move = document.getElementById(`${moveNumber}`);
-        move.innerHTML = ''; // remove text from move
-
-        currentColor = searchForColorProperty(createArrayOfClass(move), 'background'); // get current move color
-        // use of replaceColor() not possible since it expects a pokemon and "lightgray" is not one
-        move.classList.replace(currentColor, 'background-lightgray'); // replace move color with lightgray
-    } else {
-        // take moves at indexes [4, 10, 15] (instead of [1, 2, 3]) as moves are sorted by the similartiy of their names
-        let moveName = pokemon['moves'][moveIndex]['move']['name'];
-        let move = document.getElementById(`${moveNumber}`);
-
-        move.innerHTML = moveName.charAt(0).toUpperCase() + moveName.slice(1);
-        replaceColor(move, 'background-move', pokemon);
-    }
+        if (pokemon['moves'][moveIndex] && pokemon['moves'][moveIndex]['move']['name']) {
+            // format move name by capitalizing and removing hyphens
+            let moveName = pokemon['moves'][moveIndex]['move']['name']
+                .split('-')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+            moveElement.innerHTML = moveName;
+            replaceColor(moveElement, 'background-move', pokemon);
+        } else {
+            // if move is undefined, clear the innerHTML and set a default color
+            moveElement.innerHTML = '';
+            // use of replaceColor() not possible since it expects a pokemon and "lightgray" is not one
+            moveElement.classList.replace(searchForColorProperty(createArrayOfClass(moveElement), 'background'), 'background-lightgray');
+        }
+    });
 }
 
 function renderType(pokemon) {
@@ -161,18 +221,41 @@ function adjustPropertyElements(pokemon) { // adjust the line height of the type
 
 // search functions
 function searchCards() { // search for cards with the name or id of the pokemon
-    let content = document.getElementById('content');
-    let search = document.getElementById('search').value.toLowerCase().replace(/ +/g, "");
+    searchQuery = document.getElementById('search').value.toLowerCase().replace(/ +/g, "");
+    document.getElementById('content').innerHTML = "";
 
-    if (search == '') {
-        reverseSearch(content);
-    } else {
+    // filter and render based on the current search query
+    pokemons.forEach((pokemon, index) => {
+        if (nameOrIdMatch(pokemon, searchQuery)) {
+            render(pokemon, index);
+        }
+    });
+
+    // preload the next batch based on the search query
+    preloadNextBatch();
+}
+
+function executeSearch(content, search) { // make preparations and executes the search
+    searchQuery = document.getElementById('search').value.toLowerCase().replace(/ +/g, "");
+    document.getElementById('content').innerHTML = '';
+    renderSearchedCards(searchQuery);
+    hideButtons();
+    document.getElementById('sprite-container').style.justifyContent = 'center';
+
+    // loads more cards that fulfill the search criteria
+    document.getElementById('load-button').onclick = async function () {
+        disableButtons(true);
         executeSearch(content, search);
-    }
+        disableButtons(false);
+    };
 }
 
 async function reverseSearch(content) { // show all cards again
     document.getElementById('search').disabled = true; // prevent user from spamming backspace
+    document.getElementById('previous-button').disabled = false;
+    document.getElementById('next-button').disabled = false;
+    document.getElementById('load-button').disabled = false;
+
     content.innerHTML = '';
     pokemons = [];
     amountOfPokemon = 0;
@@ -183,30 +266,19 @@ async function reverseSearch(content) { // show all cards again
     document.getElementById('search').disabled = false;
 }
 
-function executeSearch(content, search) { // make preparations and executes the search
-    disableButtons(true);
-    content.innerHTML = '';
-    renderSearchedCards(content, search);
-    disableButtons(false);
-    hideButtons();
-    document.getElementById('sprite-container').style.justifyContent = 'center';
-    // loads more cards that fulfill the search criteria
-    document.getElementById('load-button').onclick = async function () {
-        disableButtons(true);
-        await fillArray();
-        executeSearch(content, search);
-        disableButtons(false);
-    };
-}
-
-function renderSearchedCards(content, search) { // render the cards that match the search
+function renderSearchedCards(search) { // render the cards that match the search
     for (let i = 0; i < pokemons.length; i++) {
         const pokemon = pokemons[i];
         if (nameOrIdMatch(pokemon, search)) {
-            content.innerHTML += `
+            let formattedName = pokemon['name']
+                .replace('-f', ' (f)')
+                .replace('-m', ' (m)');
+            formattedName = formattedName.charAt(0).toUpperCase() + formattedName.slice(1);
+
+            document.getElementById('content').innerHTML += `
             <div onclick="renderCard(${i})" id="card${i}" class="content-card background-${evaluateType(pokemon)} filter px-2 py-3 m-cards shadow-sm">
                 <div class="text-align-center">
-                    <h5 class="content-name mb-0">${pokemon['name'].charAt(0).toUpperCase() + pokemon['name'].slice(1)}</h5>
+                    <h5 class="content-name mb-0">${formattedName}</h5>
                     <span class="content-id">#${pokemon['id']}</span>
                 </div>
                 <img class="content-sprite" src="${pokemon['sprites']['other']['official-artwork']['front_default']}" 
@@ -214,6 +286,9 @@ function renderSearchedCards(content, search) { // render the cards that match t
             </div>
             `;
         }
+    }
+    if (search == '') {
+        reverseSearch(content);
     }
 }
 
@@ -224,19 +299,28 @@ function showElement(id) {
 
 function hideElement(id) {
     document.getElementById(id).classList.add('d-none');
-    if (id == 'container-black') {
+    if (id == 'container-black' && window.innerWidth > 465) {
         document.body.style.overflowY = "overlay";
+        document.body.style.marginRight = '0px';
+        let currentPaddingRight = returnCurrentPaddingRight();
+        if (semanticElementsAreExtended) {
+            header.style.paddingRight = currentPaddingRight;
+            footer.style.paddingRight = currentPaddingRight;
+            semanticElementsAreExtended = false;
+        }
     }
 }
 
 function hideButtons() { // hide the buttons when searching for cards
     document.getElementById('previous-button').style.display = 'none';
     document.getElementById('next-button').style.display = 'none';
+    document.getElementById('load-button').style.display = 'none';
 }
 
 function showButtons() { // show the buttons when not searching for cards anymore
     document.getElementById('previous-button').style.display = 'flex';
     document.getElementById('next-button').style.display = 'flex';
+    document.getElementById('load-button').style.display = 'block';
 }
 
 function doNotClose(event) { // prevent the container from closing when clicking inside it
@@ -341,11 +425,32 @@ function convertToAmerican(pokemon) { // convert international units to american
     document.getElementById('unit-btn').innerHTML = 'kg/m';
 }
 
-function disableButtons(disabled) {
-    document.getElementById('load-button').disabled = disabled;
-    document.getElementById('next-button').disabled = disabled;
+function disableButtons(isDisabled) {
+    document.getElementById('load-button').disabled = isDisabled;
+    document.getElementById('next-button').disabled = isDisabled;
 }
 
 function createArrayOfClass(element) { // return an array of classes
     return Array.from(element.classList);
+}
+
+function returnCurrentPaddingRight() { // return the current padding right of the header
+    let paddingValue;
+    const screenWidth = window.innerWidth;
+
+    switch (true) {
+        case (screenWidth <= 785):
+            paddingValue = 'calc(14.5% + 4px)';
+            break;
+        case (screenWidth <= 465):
+            paddingValue = 'calc(3% + 4px)';
+            break;
+        case (screenWidth <= 355):
+            paddingValue = 'calc(2% + 4px)';
+            break;
+        default:
+            paddingValue = 'calc(14.5% + 8px)';
+    }
+
+    return paddingValue;
 }
