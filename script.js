@@ -97,10 +97,12 @@ function renderCard(i) { // event listener for each pokemon card
     if (window.innerWidth > 465) {
         document.body.style.overflowY = "hidden";
         document.body.style.marginRight = '14px';
+        header.style.width = 'calc(100% + 14px)';
+        footer.style.width = 'calc(100% + 14px)';
         let currentPaddingRight = parseFloat(window.getComputedStyle(header).paddingRight);
         if (!semanticElementsAreExtended) {
-            header.style.paddingRight = `${currentPaddingRight + 14}px`;
-            footer.style.paddingRight = `${currentPaddingRight + 14}px`;
+            header.style.setProperty('padding-right', `${currentPaddingRight + 14}px`, 'important');
+            footer.style.setProperty('padding-right', `${currentPaddingRight + 14}px`, 'important');
             semanticElementsAreExtended = true;
         }
     }
@@ -235,19 +237,15 @@ function searchCards() { // search for cards with the name or id of the pokemon
     preloadNextBatch();
 }
 
-function executeSearch(content, search) { // make preparations and executes the search
+function executeSearch() { // make preparations and executes the search
+    if (document.getElementById('search').value.trim() == '') {
+        reverseSearch(content);
+    }
     searchQuery = document.getElementById('search').value.toLowerCase().replace(/ +/g, "");
     document.getElementById('content').innerHTML = '';
     renderSearchedCards(searchQuery);
     hideButtons();
     document.getElementById('sprite-container').style.justifyContent = 'center';
-
-    // loads more cards that fulfill the search criteria
-    document.getElementById('load-button').onclick = async function () {
-        disableButtons(true);
-        executeSearch(content, search);
-        disableButtons(false);
-    };
 }
 
 async function reverseSearch(content) { // show all cards again
@@ -257,6 +255,7 @@ async function reverseSearch(content) { // show all cards again
     document.getElementById('load-button').disabled = false;
 
     content.innerHTML = '';
+    document.getElementById('search').value = '';    
     pokemons = [];
     amountOfPokemon = 0;
     await init();
@@ -287,9 +286,6 @@ function renderSearchedCards(search) { // render the cards that match the search
             `;
         }
     }
-    if (search == '') {
-        reverseSearch(content);
-    }
 }
 
 // show/hide functions
@@ -302,10 +298,12 @@ function hideElement(id) {
     if (id == 'container-black' && window.innerWidth > 465) {
         document.body.style.overflowY = "overlay";
         document.body.style.marginRight = '0px';
-        let currentPaddingRight = returnCurrentPaddingRight();
+        header.style.width = '100%';
+        footer.style.width = '100%';
+        let currentPaddingRight = returnCurrentPadding();
         if (semanticElementsAreExtended) {
-            header.style.paddingRight = currentPaddingRight;
-            footer.style.paddingRight = currentPaddingRight;
+            header.style.setProperty('padding-right', `${currentPaddingRight}`);
+            footer.style.setProperty('padding-right', `${currentPaddingRight}`);
             semanticElementsAreExtended = false;
         }
     }
@@ -434,7 +432,7 @@ function createArrayOfClass(element) { // return an array of classes
     return Array.from(element.classList);
 }
 
-function returnCurrentPaddingRight() { // return the current padding right of the header
+function returnCurrentPadding() { // return the current padding right of the header
     let paddingValue;
     const screenWidth = window.innerWidth;
 
