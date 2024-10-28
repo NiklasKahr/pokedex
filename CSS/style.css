@@ -143,7 +143,7 @@ footer {
 }
 
 .disappear-animation {
-    animation: disappear-animation 3.2s forwards;
+    animation: disappear-animation 4s forwards;
 }
 
 @keyframes disappear-animation {
@@ -467,9 +467,11 @@ footer {
 
 /* scroll bar */
 /* Firefox */
-* {
-    scrollbar-width: auto;
-    scrollbar-color: #E23164 #F7F7F7;
+@supports (-moz-appearance: none) {
+    * {
+        scrollbar-width: auto;
+        scrollbar-color: #E23164 #F7F7F7;
+    }
 }
 
 /* Chrome, Edge, and Safari */
@@ -571,8 +573,9 @@ footer {
         font-size: 20px !important;
     }
 
-    #kg-lb, #m-ft {
-      line-height: 1.2;
+    #kg-lb,
+    #m-ft {
+        line-height: 1.2;
     }
 
     #previous-button,
